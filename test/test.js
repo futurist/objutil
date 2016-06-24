@@ -1,6 +1,6 @@
 var assert = require('assert')
 var expect = require('chai').expect
-var lib = require('../src/extend_exclude')
+var lib = require('../cjs/extend_exclude')
 
 var a = {
   name:"James",

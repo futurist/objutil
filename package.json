@@ -1,13 +1,18 @@
 {
   "name": "extend_exclude",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "Javascript object _extend()/_exclude() for deeply operate two object",
-  "main": "src/extend_exclude.js",
+  "main": "cjs/extend_exclude.js",
+  "jsnext:main": "es/extend_exclude.js",
   "scripts": {
     "travis-before_install": "npm install -g grunt-cli",
     "travis-test": "grunt jshint && npm test",
-    "make": "mkdir -p dist && browserify src/extend_exclude.js -s extend_exclude | uglifyjs -c -m -o dist/extend_exclude.js",
-    "test": "mocha"
+    "iife": "mkdir -p iife && rollup -f iife -n extend_exclude src/extend_exclude.js | uglifyjs -c -m -o iife/extend_exclude.js",
+    "amd": "mkdir -p amd && rollup -f amd -u extend_exlucde src/extend_exclude.js -o amd/extend_exclude.js",
+    "cjs": "mkdir -p cjs && rollup -f cjs src/extend_exclude.js -o cjs/extend_exclude.js",
+    "es": "mkdir -p es && rollup -f es src/extend_exclude.js -o es/extend_exclude.js",
+    "make": "npm run iife && npm run cjs && npm run amd && npm run es",
+    "test": "grunt jshint && mocha"
   },
   "repository": {
     "type": "git",
@@ -22,9 +27,9 @@
   "license": "MIT",
   "dependencies": {},
   "devDependencies": {
-    "chai": "^3.4.1",
+    "chai": "^3.5.0",
     "grunt": "^0.4.5",
-    "grunt-contrib-jshint": "^0.10.0",
+    "grunt-contrib-jshint": "^1.0.0",
     "mocha": "^2.1.0"
   },
   "bugs": {

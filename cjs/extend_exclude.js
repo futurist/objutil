@@ -1,3 +1,4 @@
+'use strict';
 
 var type = {}.toString
 var OBJECT = type.call({})
@@ -39,8 +40,10 @@ function _exclude( x,y, newVal ){
     })
 }
 
-export default {
+var extend_exclude = {
     _deepIt: _deepIt,
     _extend: _extend,
     _exclude: _exclude
 }
+
+module.exports = extend_exclude;

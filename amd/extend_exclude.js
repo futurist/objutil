@@ -23,10 +23,14 @@ define('extend_exclude', function () { 'use strict';
     return a
   }
 
-  function _extend (x, y) {
-    return _deepIt(x, y, function (a, b, key) {
-      a[key] = b[key]
-    })
+  function _extend () {
+    var arg = arguments, last
+    for(var i=arg.length; i--;) {
+      last = _deepIt(arg[i], last, function (a, b, key) {
+        a[key] = b[key]
+      })
+    }
+    return last
   }
 
   /*Usage: _exlucde(obj, {x:{y:1, z:1} }, [null] ) will delete x.y,x.z on obj, or set to newVal if present */

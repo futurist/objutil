@@ -20,6 +20,10 @@ var b= {
 	}
 }
 
+var c={
+  age:33
+}
+
 var excludeList = {
 	age:1,
 	prop:{ addr:1 }
@@ -31,6 +35,24 @@ describe('Test a/b with lib', function  () {
 				{
 				  "name": "James",
 				  "age": 10,
+				  "prop": {
+				    "addr": 1,
+				    "sn": 1001,
+				    "order": [
+				      "apple",
+				      "pear"
+				    ],
+				    "newAddr": "xyz"
+				  }
+				}
+			)
+	})
+
+	it('@ _extend with multiple args', function(){
+		expect( lib._extend(a,b,c) ).to.be.deep.equal(
+				{
+				  "name": "James",
+				  "age": 33,
 				  "prop": {
 				    "addr": 1,
 				    "sn": 1001,

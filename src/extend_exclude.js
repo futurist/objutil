@@ -35,10 +35,10 @@ function _extend () {
 /*Usage: _exlucde(obj, {x:{y:1, z:1} }, [null] ) will delete x.y,x.z on obj, or set to newVal if present */
 // _exclude( {a:1,b:{d:{ c:2} } }, { b:{d:{ c:1} } } )
 function _exclude (x, y, newVal) {
-  var args = arguments
+  var isNew = arguments.length == 3
   return _deepIt(x, y, function (a, b, key) {
     if (typeof b[key] !== 'object' && b[key]) {
-      args.length == 3 ? a[key] = newVal : delete a[key]
+      isNew ? a[key] = newVal : delete a[key]
     } else {
       a[key] = b[key]
     }

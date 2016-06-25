@@ -7,7 +7,7 @@
   "scripts": {
     "travis-before_install": "npm install -g grunt-cli",
     "travis-test": "grunt jshint && npm test",
-    "iife": "mkdir -p iife && rollup -f iife -n extend_exclude src/extend_exclude.js | uglifyjs -c -m -o iife/extend_exclude.js",
+    "iife": "mkdir -p iife && rollup -f iife -n extend_exclude --no-strict src/extend_exclude.js | uglifyjs -c -m -o iife/extend_exclude.js",
     "amd": "mkdir -p amd && rollup -f amd -u extend_exclude src/extend_exclude.js -o amd/extend_exclude.js",
     "cjs": "mkdir -p cjs && rollup -f cjs src/extend_exclude.js -o cjs/extend_exclude.js",
     "es": "mkdir -p es && rollup -f es src/extend_exclude.js -o es/extend_exclude.js",

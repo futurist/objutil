@@ -1,6 +1,6 @@
 {
   "name": "extend_exclude",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description": "Javascript object _extend()/_exclude() for deeply operate two object",
   "main": "cjs/extend_exclude.js",
   "jsnext:main": "es/extend_exclude.js",

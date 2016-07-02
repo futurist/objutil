@@ -3,29 +3,43 @@
 var type = {}.toString
 var own = {}.hasOwnProperty
 var OBJECT = type.call({})
+var ARRAY = type.call([])
 
-function _deepIt (a, b, callback, create, path) {
+function isIterable(v) {
+  return [OBJECT, ARRAY].indexOf(type.call(v))>-1
+}
+
+function isPrimitive (val) {
+  return !/obj|func/.test(typeof val) || !val
+}
+
+function _deepIt (a, b, callback, path) {
   path = path || []
-  if (a == null || b == null) {
-    return a
-  }
+  if (isPrimitive(b)) return a
   for ( var key in b) {
     if (!own.call(b, key)) continue
-    if (type.call(b[key]) == OBJECT) {
-      if(create && !(key in a)) {
-        a[key] = {}
-        callback(a,b,key,path)
+    if (isIterable(b[key])) {
+      if (!(key in a) || !isIterable(a[key])) {
+        callback(a, b, key, path, key in a)
       }
-      if (type.call(a[key]) != OBJECT) {
-        callback(a, b, key, path)
-      } else {
-        a[key] = _deepIt(a[key], b[key], callback, create, path.concat(key))
+      if (isIterable(a[key])) {
+        _deepIt(a[key], b[key], callback, path.concat(key))
       }
     } else {
       callback(a, b, key, path)
     }
   }
   return a
+}
+
+function _get(obj, p, errNotFound) {
+  var n = obj
+  for(var i = 0, len = p.length; i < len; i++) {
+    if(!isIterable(n) || !(p[i] in n))
+      return errNotFound ? new Error('NotFound') : undefined
+    n = n[p[i]]
+  }
+  return n
 }
 
 function _extend () {
@@ -43,7 +57,7 @@ function _extend () {
 function _exclude (x, y, newVal) {
   var isNew = arguments.length == 3
   return _deepIt(x, y, function (a, b, key) {
-    if (typeof b[key] !== 'object' && b[key]) {
+    if (b[key] && isPrimitive(b[key])) {
       isNew ? a[key] = newVal : delete a[key]
     } else {
       a[key] = b[key]
@@ -53,9 +67,23 @@ function _exclude (x, y, newVal) {
 
 function _pick(obj, props) {
   var o={}
-  return _deepIt(o, props, function(a,b,key){
-    a[key]= type.call(b[key])==OBJECT ? {} : obj[key]
-  }, true)
+  return _deepIt(o, props, function(a,b,key,path,notInA){
+    var c = _get(obj,path.concat(key))
+    if(!b[key]) return
+    if(!isPrimitive(c)) a[key] = type.call(c)==ARRAY ? [] : {}
+    if(isPrimitive(b[key])) a[key] = c
+  })
+}
+
+function _pick2(obj, props) {
+  props=props||{}
+  var o={}
+  return _deepIt(o, obj, function(a,b,key,path,notInA){
+    var c = _get(props,path.concat(key))
+    if(c && isPrimitive(c)) return
+    if(!isPrimitive(b[key])) a[key] = type.call(b[key])==ARRAY ? [] : {}
+    else a[key]= b[key]
+  })
 }
 
 function _default(obj, option) {
@@ -66,8 +94,10 @@ function _default(obj, option) {
 
 var extend_exclude = {
   _deepIt: _deepIt,
+  _get: _get,
   _extend: _extend,
   _pick: _pick,
+  _pick2: _pick2,
   _default: _default,
   _exclude: _exclude
 }

@@ -10,6 +10,7 @@ module.exports = function(grunt) {
         unused: false,
         curly: false,
         eqeqeq: false,
+        "-W041": false,         // allow '===' to compare with '0'
         expr: true,
         eqnull: true,
         proto: true

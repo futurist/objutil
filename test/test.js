@@ -84,7 +84,11 @@ describe('Test a/b with lib', function  () {
 	})
 
 	it('@ _exclude with newVal', function(){
-		var val = lib._exclude(a, excludeList, null)
+		var val = lib._exclude(a, {
+      hoho:234,
+	    age:null,
+	    prop:{ addr:null, lulu:true }
+    }, true)
 		expect( val ).is.deep.equal(
 			{"name":"James","age":null,"prop":{"addr":null,"sn":1001,"order":[{item:'apple', number:10}, {item:'pear', number:23}]}}
 		)

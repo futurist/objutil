@@ -17,15 +17,9 @@ define('extend_exclude', function () { 'use strict';
     if (isPrimitive(b)) return a
     for ( var key in b) {
       if (!own(b, key)) continue
-      if (isIterable(b[key])) {
-        if (!(key in a) || !isIterable(a[key])) {
-          callback(a, b, key, path, key in a)
-        }
-        if (isIterable(a[key])) {
-          _deepIt(a[key], b[key], callback, path.concat(key))
-        }
-      } else {
-        callback(a, b, key, path)
+      callback(a, b, key, path, key in a)
+      if (isIterable(b[key]) && isIterable(a[key])) {
+        _deepIt(a[key], b[key], callback, path.concat(key))
       }
     }
     return a
@@ -44,29 +38,30 @@ define('extend_exclude', function () { 'use strict';
   function _extend () {
     var arg = arguments, last
     for(var i=arg.length; i--;) {
-      last = _deepIt(arg[i], last, function (a, b, key) {
-        a[key] = b[key]
+      last = _deepIt(arg[i], last, function (a, b, key, path, inA) {
+        if(!inA || isPrimitive(b[key])) a[key] = b[key]
       })
     }
     return last
   }
 
-  /*Usage: _exlucde(obj, {x:{y:1, z:1} }, [null] ) will delete x.y,x.z on obj, or set to newVal if present */
+  /** Usage: _exlucde(obj, {x:{y:2, z:3} } ) will delete x.y,x.z on obj
+   *  when isSet, will set value to a instead of delete
+   */
   // _exclude( {a:1,b:{d:{ c:2} } }, { b:{d:{ c:1} } } )
-  function _exclude (x, y, newVal) {
-    var isNew = arguments.length == 3
+  function _exclude (x, y, isSet) {
     return _deepIt(x, y, function (a, b, key) {
-      if (b[key] && isPrimitive(b[key])) {
-        isNew ? a[key] = newVal : delete a[key]
-      } else {
-        a[key] = b[key]
+      if (isPrimitive(b[key])) {
+        isSet
+          ? (key in a ? a[key] = b[key] : '')
+        : (b[key] ? delete a[key] : '')
       }
     })
   }
 
   function _pick(obj, props) {
     var o={}
-    return _deepIt(o, props, function(a,b,key,path,notInA){
+    return _deepIt(o, props, function(a,b,key,path){
       var c = _get(obj,path.concat(key))
       if(!b[key]) return
       if(!isPrimitive(c)) a[key] = is('Array', c) ? [] : {}
@@ -77,7 +72,7 @@ define('extend_exclude', function () { 'use strict';
   function _pick2(obj, props) {
     props=props||{}
     var o={}
-    return _deepIt(o, obj, function(a,b,key,path,notInA){
+    return _deepIt(o, obj, function(a,b,key,path){
       var c = _get(props,path.concat(key))
       if(c && isPrimitive(c)) return
       if(!isPrimitive(b[key])) a[key] = is('Array', b[key]) ? [] : {}

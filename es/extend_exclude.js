@@ -91,6 +91,7 @@ function _default(obj, option) {
 
 var extend_exclude = {
   _is: is,
+  _own: own,
   _isIter: isIterable,
   _isPrim: isPrimitive,
   _get: _get,

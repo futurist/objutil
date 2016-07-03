@@ -1,12 +1,11 @@
 define('extend_exclude', function () { 'use strict';
 
-  var type = {}.toString
-  var own = {}.hasOwnProperty
-  var OBJECT = type.call({})
-  var ARRAY = type.call([])
+  // better type check
+  var is = function (t, v) { return {}.toString.call(v).slice(8, -1) === t }
+  var own = function (o, k) { return {}.hasOwnProperty.call(o, k) }
 
-  function isIterable(v) {
-    return [OBJECT, ARRAY].indexOf(type.call(v))>-1
+  function isIterable (v) {
+    return is('Object', v) || is('Array', v) || is('Map', v)
   }
 
   function isPrimitive (val) {
@@ -17,7 +16,7 @@ define('extend_exclude', function () { 'use strict';
     path = path || []
     if (isPrimitive(b)) return a
     for ( var key in b) {
-      if (!own.call(b, key)) continue
+      if (!own(b, key)) continue
       if (isIterable(b[key])) {
         if (!(key in a) || !isIterable(a[key])) {
           callback(a, b, key, path, key in a)
@@ -70,7 +69,7 @@ define('extend_exclude', function () { 'use strict';
     return _deepIt(o, props, function(a,b,key,path,notInA){
       var c = _get(obj,path.concat(key))
       if(!b[key]) return
-      if(!isPrimitive(c)) a[key] = type.call(c)==ARRAY ? [] : {}
+      if(!isPrimitive(c)) a[key] = is('Array', c) ? [] : {}
       if(isPrimitive(b[key])) a[key] = c
     })
   }
@@ -81,7 +80,7 @@ define('extend_exclude', function () { 'use strict';
     return _deepIt(o, obj, function(a,b,key,path,notInA){
       var c = _get(props,path.concat(key))
       if(c && isPrimitive(c)) return
-      if(!isPrimitive(b[key])) a[key] = type.call(b[key])==ARRAY ? [] : {}
+      if(!isPrimitive(b[key])) a[key] = is('Array', b[key]) ? [] : {}
       else a[key]= b[key]
     })
   }
@@ -93,8 +92,11 @@ define('extend_exclude', function () { 'use strict';
   }
 
   var extend_exclude = {
-    _deepIt: _deepIt,
+    _is: is,
+    _isIter: isIterable,
+    _isPrim: isPrimitive,
     _get: _get,
+    _deepIt: _deepIt,
     _extend: _extend,
     _pick: _pick,
     _pick2: _pick2,

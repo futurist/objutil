@@ -1,7 +1,7 @@
 {
-  "name": "extend_exclude",
+  "name": "objutil",
   "version": "1.0.9",
-  "description": "Javascript object _extend()/_exclude() for deeply operate two object",
+  "description": "Object utils for javascript",
   "main": "cjs/extend_exclude.js",
   "jsnext:main": "es/extend_exclude.js",
   "scripts": {
@@ -19,8 +19,10 @@
     "url": "git+https://github.com/mithriljs-cn/util_extend_exclude.git"
   },
   "keywords": [
-    "object extend",
+    "object util",
     "extend",
+    "object tool kit",
+    "object default",
     "deep merge"
   ],
   "author": "mithriljs_cn",

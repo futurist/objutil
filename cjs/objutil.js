@@ -1,5 +1,7 @@
 'use strict';
 
+Object.defineProperty(exports, '__esModule', { value: true });
+
 // better type check
 var is = function (t, v) { return {}.toString.call(v).slice(8, -1) === t }
 var own = function (o, k) { return {}.hasOwnProperty.call(o, k) }
@@ -86,20 +88,14 @@ function defaults(obj, option) {
   })
 }
 
-var objutil = {
-  is: is,
-  own: own,
-  isIterable: isIterable,
-  isIter: isIterable,
-  isPrimitive: isPrimitive,
-  isPrim: isPrimitive,
-  get: get,
-  deepIt: deepIt,
-  extend: extend,
-  pick: pick,
-  pick2: pick2,
-  defaults: defaults,
-  exclude: exclude
-}
-
-module.exports = objutil;
+exports.is = is;
+exports.own = own;
+exports.isIterable = isIterable;
+exports.isPrimitive = isPrimitive;
+exports.deepIt = deepIt;
+exports.get = get;
+exports.extend = extend;
+exports.exclude = exclude;
+exports.pick = pick;
+exports.pick2 = pick2;
+exports.defaults = defaults;

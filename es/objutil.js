@@ -84,20 +84,4 @@ function defaults(obj, option) {
   })
 }
 
-var objutil = {
-  is: is,
-  own: own,
-  isIterable: isIterable,
-  isIter: isIterable,
-  isPrimitive: isPrimitive,
-  isPrim: isPrimitive,
-  get: get,
-  deepIt: deepIt,
-  extend: extend,
-  pick: pick,
-  pick2: pick2,
-  defaults: defaults,
-  exclude: exclude
-}
-
-export default objutil;
+export { is, own, isIterable, isPrimitive, deepIt, get, extend, exclude, pick, pick2, defaults };

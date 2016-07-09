@@ -1,16 +1,16 @@
 {
   "name": "objutil",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "description": "Object utils for javascript",
-  "main": "cjs/extend_exclude.js",
-  "jsnext:main": "es/extend_exclude.js",
+  "main": "cjs/objutil.js",
+  "jsnext:main": "es/objutil.js",
   "scripts": {
     "travis-before_install": "npm install -g grunt-cli",
     "travis-test": "grunt jshint && npm test",
-    "iife": "mkdir -p iife && rollup -f iife -n extend_exclude --no-strict src/extend_exclude.js | uglifyjs -c -m -o iife/extend_exclude.js",
-    "amd": "mkdir -p amd && rollup -f amd -u extend_exclude src/extend_exclude.js -o amd/extend_exclude.js",
-    "cjs": "mkdir -p cjs && rollup -f cjs src/extend_exclude.js -o cjs/extend_exclude.js",
-    "es": "mkdir -p es && rollup -f es src/extend_exclude.js -o es/extend_exclude.js",
+    "iife": "mkdir -p iife && rollup -f iife -n objutil --no-strict src/objutil.js | uglifyjs -c -m -o iife/objutil.js",
+    "amd": "mkdir -p amd && rollup -f amd -u objutil src/objutil.js -o amd/objutil.js",
+    "cjs": "mkdir -p cjs && rollup -f cjs src/objutil.js -o cjs/objutil.js",
+    "es": "mkdir -p es && rollup -f es src/objutil.js -o es/objutil.js",
     "make": "npm run iife && npm run cjs && npm run amd && npm run es",
     "test": "grunt jshint && mocha"
   },

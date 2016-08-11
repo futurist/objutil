@@ -20,9 +20,24 @@ module.exports = function(grunt) {
         "src/**/*.js",
         "test/**/*.js"
       ]
+    },
+    bump: {
+      options: {
+        files: ['package.json'],
+        updateConfigs: [],
+        commit: false,
+        createTag: false,
+        push: false,
+        gitDescribeOptions: '--tags --always --abbrev=1 --dirty=-d',
+        globalReplace: false,
+        prereleaseName: false,
+        metadata: '',
+        regExp: false
+      }
     }
   });
 
+  grunt.loadNpmTasks('grunt-bump');
   grunt.loadNpmTasks("grunt-contrib-jshint");
   grunt.registerTask("default", ["jshint"]);
 };

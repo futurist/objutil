@@ -1,4 +1,8 @@
-# objutil  [![Build Status](https://travis-ci.org/mithriljs-cn/objutil.svg?branch=master)](https://travis-ci.org/mithriljs-cn/objutil)
+# objutil
+
+Object util functions for extend, exclude, default, pick etc.
+
+[![Build Status](https://travis-ci.org/futurist/objutil.svg?branch=master)](https://travis-ci.org/futurist/objutil)
 
 **js object extend()/exclude() for deeply operate two object**
 
@@ -75,4 +79,4 @@ deepIt( a, b, function(objA,objB,key){
 ---> same result of extend(a,b)
 ````
 
-### Copyright @ Mithriljs_CN
+### MIT @ James Yang

@@ -16,7 +16,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/mithriljs-cn/util_extend_exclude.git"
+    "url": "git+https://github.com/futurist/objutil.git"
   },
   "keywords": [
     "object util",
@@ -36,7 +36,7 @@
     "mocha": "^2.1.0"
   },
   "bugs": {
-    "url": "https://github.com/mithriljs-cn/util_extend_exclude/issues"
+    "url": "https://github.com/futurist/objutil/issues"
   },
-  "homepage": "https://github.com/mithriljs-cn/util_extend_exclude#readme"
+  "homepage": "https://github.com/futurist/objutil#readme"
 }

@@ -1,7 +1,7 @@
 {
   "name": "objutil",
-  "version": "1.0.11",
-  "description": "Object utils for javascript",
+  "version": "1.0.12",
+  "description": "Object utils for javascript in ES6, support tree shaking",
   "main": "cjs/objutil.js",
   "jsnext:main": "es/objutil.js",
   "scripts": {
@@ -25,7 +25,7 @@
     "object default",
     "deep merge"
   ],
-  "author": "mithriljs_cn",
+  "author": "James Yang <jamesyang999@gmail.com>",
   "license": "MIT",
   "dependencies": {},
   "devDependencies": {

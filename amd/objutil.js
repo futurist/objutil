@@ -17,7 +17,7 @@ define('objutil', ['exports'], function (exports) { 'use strict';
     if (isPrimitive(b)) return a
     for ( var key in b) {
       if (!own(b, key)) continue
-      callback(a, b, key, path, key in a)
+      callback(a, b, key, path, isIterable(a) && key in a)
       if (isIterable(b[key]) && isIterable(a[key])) {
         deepIt(a[key], b[key], callback, path.concat(key))
       }

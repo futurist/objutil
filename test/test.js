@@ -58,6 +58,10 @@ describe('Test a/b with lib', function  () {
 		)
 	})
 
+  it('extend with non-key', function() {
+    expect(lib.extend({}, {plugins:{value:'asdf'}})).deep.equal({plugins:{value:'asdf'}})
+  })
+
 	it('@ extend with multiple args', function(){
 		expect( lib.extend(a,b,c) ).to.be.deep.equal(
 			{

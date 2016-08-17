@@ -2,8 +2,8 @@
   "name": "objutil",
   "version": "1.0.12",
   "description": "Object utils for javascript in ES6, support tree shaking",
-  "main": "cjs/objutil.js",
-  "jsnext:main": "es/objutil.js",
+  "main": "dist/objutil.cjs.js",
+  "jsnext:main": "dist/objutil.es.js",
   "scripts": {
     "travis-before_install": "npm install -g grunt-cli",
     "travis-test": "grunt jshint && npm test",

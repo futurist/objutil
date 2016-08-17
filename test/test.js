@@ -1,6 +1,6 @@
 var assert = require('assert')
 var expect = require('chai').expect
-var lib = require('../cjs/objutil.js')
+var lib = require('../dist/objutil.cjs.js')
 
 var a,b,c
 var newObj = function (obj){

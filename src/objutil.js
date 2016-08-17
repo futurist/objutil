@@ -1,17 +1,17 @@
 
 // better type check
-export var is = function (t, v) { return {}.toString.call(v).slice(8, -1) === t }
-export var own = function (o, k) { return {}.hasOwnProperty.call(o, k) }
+var is = function (t, v) { return {}.toString.call(v).slice(8, -1) === t }
+var own = function (o, k) { return {}.hasOwnProperty.call(o, k) }
 
-export function isIterable (v) {
+function isIterable (v) {
   return is('Object', v) || is('Array', v) || is('Map', v)
 }
 
-export function isPrimitive (val) {
+function isPrimitive (val) {
   return !/obj|func/.test(typeof val) || !val
 }
 
-export function deepIt (a, b, callback, path) {
+function deepIt (a, b, callback, path) {
   path = path || []
   if (isPrimitive(b)) return a
   for ( var key in b) {
@@ -24,7 +24,7 @@ export function deepIt (a, b, callback, path) {
   return a
 }
 
-export function get(obj, p, errNotFound) {
+function get(obj, p, errNotFound) {
   var n = obj
   for(var i = 0, len = p.length; i < len; i++) {
     if(!isIterable(n) || !(p[i] in n))
@@ -34,7 +34,7 @@ export function get(obj, p, errNotFound) {
   return n
 }
 
-export function extend () {
+function extend () {
   var arg = arguments, last
   for(var i=arg.length; i--;) {
     last = deepIt(arg[i], last, function (a, b, key, path, inA) {
@@ -48,7 +48,7 @@ export function extend () {
  *  when isSet, will set value to a instead of delete
  */
 // _exclude( {a:1,b:{d:{ c:2} } }, { b:{d:{ c:1} } } )
-export function exclude (x, y, isSet) {
+function exclude (x, y, isSet) {
   return deepIt(x, y, function (a, b, key) {
     if (isPrimitive(b[key])) {
       isSet
@@ -58,7 +58,7 @@ export function exclude (x, y, isSet) {
   })
 }
 
-export function pick(obj, props) {
+function pick(obj, props) {
   var o={}
   return deepIt(o, props, function(a,b,key,path){
     var c = get(obj,path.concat(key))
@@ -68,7 +68,7 @@ export function pick(obj, props) {
   })
 }
 
-export function pick2(obj, props) {
+function pick2(obj, props) {
   props=props||{}
   var o={}
   return deepIt(o, obj, function(a,b,key,path){
@@ -79,9 +79,11 @@ export function pick2(obj, props) {
   })
 }
 
-export function defaults(obj, option) {
+function defaults(obj, option) {
   return deepIt(obj, option, function(a,b,key){
     if(!(key in a)) a[key]=b[key]
   })
 }
+
+// export { is, own, isIterable, isPrimitive, deepIt, get, extend, exclude, pick, pick2, defaults }
 

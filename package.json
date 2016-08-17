@@ -7,11 +7,7 @@
   "scripts": {
     "travis-before_install": "npm install -g grunt-cli",
     "travis-test": "grunt jshint && npm test",
-    "iife": "mkdir -p iife && rollup -f iife -n objutil --no-strict src/objutil.js | uglifyjs -c -m -o iife/objutil.js",
-    "amd": "mkdir -p amd && rollup -f amd -u objutil src/objutil.js -o amd/objutil.js",
-    "cjs": "mkdir -p cjs && rollup -f cjs src/objutil.js -o cjs/objutil.js",
-    "es": "mkdir -p es && rollup -f es src/objutil.js -o es/objutil.js",
-    "make": "npm run iife && npm run cjs && npm run amd && npm run es",
+    "make": "rollup -c && cd dist && uglifyjs objutil.iife.js -c -m -o objutil.min.js",
     "test": "grunt jshint && mocha"
   },
   "repository": {

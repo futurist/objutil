@@ -7,7 +7,11 @@ var argv = process.argv
 
 // pass args from rollup:
 // rollup -c --objutil extend,pick
-var vars = 'is, own, isIterable, isPrimitive, deepIt, get, extend, exclude, pick, pick2, defaults'
+// you can add npm scripts:
+// scripts: {
+//   "objutil": "rollup -c ./node_modules/objutil/rollup.config.js --obj 'extend'"
+// }
+var vars = 'is, own, isIterable, isPrimitive, deepIt, get, extend, extend as assign, merge, exclude, pick, pick2, defaults'
 var pos = argv.indexOf('--obj')
 if(pos>0 && argv[pos+1]) vars = argv[pos+1]
 

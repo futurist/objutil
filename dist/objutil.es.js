@@ -36,6 +36,16 @@ function get(obj, p, errNotFound) {
 function extend () {
   var arg = arguments, last
   for(var i=arg.length; i--;) {
+    last = deepIt(arg[i], last, function (a, b, key, path) {
+      a[key] = b[key]
+    })
+  }
+  return last
+}
+
+function merge () {
+  var arg = arguments, last
+  for(var i=arg.length; i--;) {
     last = deepIt(arg[i], last, function (a, b, key, path, inA) {
       if(!inA || isPrimitive(b[key])) a[key] = b[key]
     })
@@ -84,4 +94,4 @@ function defaults(obj, option) {
   })
 }
 
-export { is, own, isIterable, isPrimitive, deepIt, get, extend, exclude, pick, pick2, defaults };
+export { is, own, isIterable, isPrimitive, deepIt, get, extend, extend as assign, merge, exclude, pick, pick2, defaults };

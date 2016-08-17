@@ -41,7 +41,20 @@ var excludeList = {
 
 describe('Test a/b with lib', function  () {
 	it('@ extend b to a', function(){
-		expect( lib.extend(a,b) ).to.be.deep.equal(
+    expect(lib.extend(a,b)).deep.equal(
+      {
+				"name": "James",
+				"age": 10,
+	      prop:{
+		      addr:1,
+		      newAddr:"xyz"
+	      }
+      }
+    )
+  })
+
+	it('@ merge b to a', function(){
+		expect( lib.merge(a,b) ).to.be.deep.equal(
 			{
 				"name": "James",
 				"age": 10,
@@ -58,12 +71,12 @@ describe('Test a/b with lib', function  () {
 		)
 	})
 
-  it('extend with non-key', function() {
-    expect(lib.extend({}, {plugins:{value:'asdf'}})).deep.equal({plugins:{value:'asdf'}})
+  it('merge with non-key', function() {
+    expect(lib.merge({}, {plugins:{value:'asdf'}})).deep.equal({plugins:{value:'asdf'}})
   })
 
-	it('@ extend with multiple args', function(){
-		expect( lib.extend(a,b,c) ).to.be.deep.equal(
+	it('@ merge with multiple args', function(){
+		expect( lib.merge(a,b,c) ).to.be.deep.equal(
 			{
 				"name": "James",
 				"age": 33,

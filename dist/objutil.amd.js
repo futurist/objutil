@@ -110,6 +110,4 @@ exports.pick = pick;
 exports.pick2 = pick2;
 exports.defaults = defaults;
 
-Object.defineProperty(exports, '__esModule', { value: true });
-
 });

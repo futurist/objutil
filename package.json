@@ -1,13 +1,13 @@
 {
   "name": "objutil",
-  "version": "1.0.12",
+  "version": "1.0.15",
   "description": "Object utils for javascript in ES6, support tree shaking",
   "main": "dist/objutil.cjs.js",
   "jsnext:main": "dist/objutil.es.js",
   "scripts": {
     "travis-before_install": "npm install -g grunt-cli",
     "travis-test": "grunt jshint && npm test",
-    "make": "rollup -c && cd dist && uglifyjs objutil.iife.js -c -m -o objutil.min.js",
+    "make": "rollup -c && cd dist && uglifyjs objutil.iife.js -c -m -o objutil.min.js && grunt bump",
     "test": "grunt jshint && mocha"
   },
   "repository": {

@@ -1,7 +1,5 @@
 'use strict';
 
-Object.defineProperty(exports, '__esModule', { value: true });
-
 // better type check
 var is = function (t, v) { return {}.toString.call(v).slice(8, -1) === t }
 var own = function (o, k) { return {}.hasOwnProperty.call(o, k) }

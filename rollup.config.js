@@ -23,9 +23,7 @@ var exportStr = '\nexport { '+ vars +' }'
 export default {
   entry: entry,
   plugins: [
-    memory({
-      contents: fs.readFileSync(entry) + exportStr
-    })
+    objTransform()
   ],
   moduleName: 'objutil',
   moduleId: 'objutil',
@@ -37,35 +35,14 @@ export default {
   ]
 }
 
-
-
-// code from plugin rollup-plugin-memory
-function once(fn) {
-    var called = false;
-    return function () {
-        if (!called) {
-            called = true;
-            return fn.apply(undefined, arguments);
-        }
-    };
-}
-
-function memory() {
-    var opts = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
-
-    if (typeof opts.contents !== 'string' && !(opts.contents instanceof Buffer)) {
-        throw Error(['rollup-plugin-memory', 'opts.contents should be string or buffer instance'].join(': '));
+function objTransform () {
+  return {
+    transform: function(code) {
+      return code + exportStr
+    },
+    transformBundle: function (code) {
+      // https://github.com/futurist/rollup-plugin-es3
+      return  code.replace(/^\s*Object\.defineProperty\(exports,\s*'__esModule'.*\n$/mi, '')
     }
-
-    var contents = opts.contents.toString();
-    var path = typeof opts.path === 'string' ? opts.path : false;
-
-    return {
-        resolveId: once(function (id) {
-            return path || id;
-        }),
-        load: once(function () {
-            return contents;
-        })
-    };
+  }
 }

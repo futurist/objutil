@@ -1,6 +1,6 @@
 {
   "name": "objutil",
-  "version": "1.0.15",
+  "version": "1.0.16",
   "description": "Object utils for javascript in ES6, support tree shaking",
   "main": "dist/objutil.cjs.js",
   "jsnext:main": "dist/objutil.es.js",
@@ -8,7 +8,8 @@
     "travis-before_install": "npm install -g grunt-cli",
     "travis-test": "grunt jshint && npm test",
     "make": "rollup -c && cd dist && uglifyjs objutil.iife.js -c -m -o objutil.min.js && grunt bump",
-    "test": "grunt jshint && mocha"
+    "test": "grunt jshint && istanbul cover _mocha",
+    "coveralls": "istanbul cover ./node_modules/mocha/bin/_mocha --report lcovonly -- -R spec && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage"
   },
   "repository": {
     "type": "git",
@@ -26,10 +27,12 @@
   "dependencies": {},
   "devDependencies": {
     "chai": "^3.5.0",
+    "coveralls": "^2.11.14",
     "grunt": "^0.4.5",
     "grunt-bump": "^0.8.0",
     "grunt-contrib-jshint": "^1.0.0",
-    "mocha": "^2.1.0",
+    "mocha": "^3.0.2",
+    "mocha-lcov-reporter": "^1.2.0",
     "rollup": "^0.34.9"
   },
   "bugs": {

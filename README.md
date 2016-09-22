@@ -1,19 +1,18 @@
 # objutil
 
-Object util functions for extend, exclude, default, pick etc.
+JS object util methods, with tree shaking building-in, methods: extend, merge, exclude, default, pick etc.
 
-[![Build Status](https://travis-ci.org/futurist/objutil.svg?branch=master)](https://travis-ci.org/futurist/objutil)
-
-**js object extend()/exclude() for deeply operate two object**
+[![Build Status](https://travis-ci.org/futurist/objutil.svg?branch=master)](https://travis-ci.org/futurist/objutil) <a href='https://coveralls.io/github/futurist/objutil?branch=master'><img src='https://coveralls.io/repos/github/futurist/objutil/badge.svg?branch=master' alt='Coverage Status' /></a>
 
 ### Usage:
 
-````
-var extend = require('objutil').extend
+```javascript
+var merge = require('objutil').merge
 var exclude = require('objutil').exclude
 var a = {
   x:1,
   y:{
+    w:1,
     z:2
   }
 }
@@ -24,16 +23,17 @@ var b= {
     u:'name'
   }
 }
-extend(a,b)
+merge(a,b)
 exclude(a,b)
-````
+```
 
 ### extend( a, b )
 
-**Deeply merge b properties into a**
+**Deeply extend b properties into a**
 
 *extend( a, b )*
-````
+```javascript
+//result=>
 {
   x:1,
   y:{
@@ -41,7 +41,24 @@ exclude(a,b)
     u:'name'
   }
 }
-````
+```
+
+### merge( a, b )
+
+**Deeply merge b properties into a**
+
+*merge( a, b )*
+```javascript
+//result=>
+{
+  x:1,
+  y:{
+    w:1,
+    z:10,
+    u:'name'
+  }
+}
+```
 
 ### exclude( a, exclude_obj, [newValue] )
 
@@ -49,34 +66,48 @@ exclude(a,b)
 
 *exclude( a, { y:{z:1} } )*
 
-````
+```javascript
+//result=>
 {
   x:1,
   y:{
-    u:'name'
+    w:1
   }
 }
-````
+```
 *exclude( a, { y:{z:10} } , null)*
-````
+```javascript
+//result=>
 {
   x:1,
   y:{
-    z:null,
-    u:'name'
+    w:1,
+    z:null
   }
 }
 
-````
+```
+
+### get( obj, pathArray, isThrow )
+
+**Get object value from pathArray. Throw error or return undefined**
+
+*get( a, ['y', 'z'] )*
+
+```javascript
+//result=>
+2
+```
+
 
 ### deepIt( a, b, callback )
 
-**Iterate deeply with a && b simultaneously, and callback(objA, objB, key)**
-````
+**Iterate b with deeply sync props of a, and callback(objA, objB, key)**
+```javascript
 deepIt( a, b, function(objA,objB,key){
     objA[key] = objB[key]
 } )
----> same result of extend(a,b)
-````
+// ---> same result of merge(a,b)
+```
 
-### MIT @ James Yang
+### MIT

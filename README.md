@@ -71,13 +71,16 @@ exclude(a,b)
 
 ### get( obj, pathArray, isThrow )
 
-> **Get object value from pathArray. Throw error or return undefined**
+> **Get object value from pathArray. When not found, throw error if isThrow is true, else return undefined**
 
 *get( a, ['y', 'z'] )*
 
 ```javascript
 //result is
 2
+
+//throw error when not found
+get(a, ['x', 'y'], true)
 ```
 
 ### assign( obj, ...args )

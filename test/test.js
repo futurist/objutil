@@ -45,7 +45,7 @@ describe('Test a/b with lib', function  () {
 	it('hasOwnProperty test', function(){
     var x = Object.create(b)
     x.age = 30
-    expect(lib.extend(a,x)).deep.equal(
+    expect(lib.assign(a,x)).deep.equal(
       {
         name:"James",
         age:30,
@@ -61,8 +61,8 @@ describe('Test a/b with lib', function  () {
     )
   })
 
-	it('@ extend b to a', function(){
-    expect(lib.extend(a,b)).deep.equal(
+	it('@ assign b to a', function(){
+    expect(lib.assign(a,b)).deep.equal(
       {
 				"name": "James",
 				"age": 10,
@@ -167,34 +167,6 @@ describe('Test a/b with lib', function  () {
       JSON.stringify({
         "prop":{"order":[null,{"item":"pear","number":23}]}
       })
-    )
-	})
-
-	it('@ pick2 with normal obj', function(){
-		var val = lib.pick2({a:3, b:{c:2, d:3}}, {a:1, b:{c:1}})
-		expect( val ).to.deep.equal(
-      {b:{d:3}}
-    )
-	})
-
-	it('@ pick2 with falsy obj', function(){
-		var val = lib.pick2({a:3, b:{c:2}})
-		expect( val ).to.deep.equal(
-      {a:3, b:{c:2}}
-    )
-	})
-
-	it('@ pick2 with non-exist obj path 1', function(){
-		var val = lib.pick2({a:3, b:{c:2}}, {prop:{order:[0,1]}})
-		expect( val ).to.deep.equal(
-      {a:3, b:{c:2}}
-    )
-	})
-
-	it('@ pick2 with non-exist obj path 2', function(){
-		var val = lib.pick2(a, {prop:{order:[0,1]}})
-		expect( val ).to.deep.equal(
-      {"name":"James","age":22,"prop":{"addr":"ABC","sn":1001,"order":[{"item":"apple","number":10}]}}
     )
 	})
 

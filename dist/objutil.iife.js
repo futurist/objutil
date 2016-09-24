@@ -36,7 +36,7 @@ function get(obj, p, errNotFound) {
   return n
 }
 
-function extend () {
+function assign () {
   var arg = arguments, last
   for(var i=arg.length; i--;) {
     last = deepIt(arg[i], last, function (a, b, key, path) {
@@ -80,17 +80,6 @@ function pick(obj, props) {
   })
 }
 
-function pick2(obj, props) {
-  if(!props) return obj
-  var o={}
-  return deepIt(o, obj, function(a,b,key,path){
-    var c = get(props,path.concat(key))
-    if(c && isPrimitive(c)) return
-    if(!isPrimitive(b[key])) a[key] = is('Array', b[key]) ? [] : {}
-    else a[key]= b[key]
-  })
-}
-
 function defaults(obj, option) {
   return deepIt(obj, option, function(a,b,key){
     if(!(key in a)) a[key]=b[key]
@@ -103,12 +92,11 @@ exports.isIterable = isIterable;
 exports.isPrimitive = isPrimitive;
 exports.deepIt = deepIt;
 exports.get = get;
-exports.extend = extend;
-exports.assign = extend;
+exports.assign = assign;
+exports.extend = assign;
 exports.merge = merge;
 exports.exclude = exclude;
 exports.pick = pick;
-exports.pick2 = pick2;
 exports.defaults = defaults;
 
 }((this.objutil = this.objutil || {})));

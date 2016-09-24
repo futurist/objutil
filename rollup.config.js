@@ -6,13 +6,13 @@ import fs from 'fs'
 var argv = process.argv
 
 // pass args from rollup:
-// rollup -c --objutil extend,pick
+// rollup -c --api assign,pick
 // you can add npm scripts:
 // scripts: {
-//   "objutil": "rollup -c ./node_modules/objutil/rollup.config.js --obj 'extend'"
+//   "objutil": "rollup -c ./node_modules/objutil/rollup.config.js --api 'assign'"
 // }
-var vars = 'is, own, isIterable, isPrimitive, deepIt, get, extend, extend as assign, merge, exclude, pick, pick2, defaults'
-var pos = argv.indexOf('--obj')
+var vars = 'is, own, isIterable, isPrimitive, deepIt, get, assign, assign as extend, merge, exclude, pick, defaults'
+var pos = argv.indexOf('--api')
 if(pos>0 && argv[pos+1]) vars = argv[pos+1]
 
 var entry = path.join(__dirname, './src/objutil.js')

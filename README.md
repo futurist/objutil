@@ -85,9 +85,9 @@ get(a, ['x', 'y'], true)
 
 ### assign( obj, ...args )
 
-> **Deeply assign b properties into a**
+> **Deeply assign args properties into obj, from right to left order.**
 
-*assign( a, b )*
+*assign( a, b, {w:3} )*
 ```javascript
 //result=>
 {
@@ -95,20 +95,22 @@ get(a, ['x', 'y'], true)
   y:{
     z:10,
     u:'name'
-  }
+  },
+  w:3
 }
 ```
 
 ### merge( obj, ...args )
 
-> **Deeply merge b properties into a**
+> **Deeply merge args properties into obj, from right to left order.**
 
-*merge( a, b )*
+*merge( a, b, {y:{v:3}} )*
 ```javascript
 //result=>
 {
   x:1,
   y:{
+    v:3,
     w:1,
     z:10,
     u:'name'
@@ -118,7 +120,7 @@ get(a, ['x', 'y'], true)
 
 ### exclude( obj, excludeObj, [newValue] )
 
-> **Deeply delete exclude_obj(if key has a truthy value) from obj, optionally set to newValue if present**
+> **Deeply delete excludeObj(if key has a truthy value) from obj, optionally set to newValue if present**
 
 *exclude( a, { y:{z:true} } )*
 
@@ -163,6 +165,7 @@ get(a, ['x', 'y'], true)
 ### deepIt( a, b, callback )
 
 > **Iterate b with deeply sync props of a, and callback(objA, objB, key)**
+
 ```javascript
 deepIt( a, b, function(objA,objB,key){
     objA[key] = objB[key]

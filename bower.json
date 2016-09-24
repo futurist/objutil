@@ -1,0 +1,29 @@
+{
+  "name": "objutil",
+  "description": "Javascript Object util methods, with ES6 tree shaking methods: assign(extend), merge, exclude, default, pick. Customize the APIs into one file.",
+  "main": "dist/objutil.cjs.js",
+  "authors": [
+    "James Yang <jamesyang999@gmail.com>"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "object",
+    "util",
+    "extend",
+    "object",
+    "tool",
+    "kit",
+    "object",
+    "default",
+    "deep",
+    "merge"
+  ],
+  "homepage": "https://github.com/futurist/objutil",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

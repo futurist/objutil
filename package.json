@@ -1,6 +1,6 @@
 {
   "name": "objutil",
-  "version": "1.0.16",
+  "version": "1.0.17",
   "description": "Object utils for javascript in ES6, support tree shaking",
   "main": "dist/objutil.cjs.js",
   "jsnext:main": "dist/objutil.es.js",

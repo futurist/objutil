@@ -36,10 +36,31 @@ beforeEach(function(){
 
 var excludeList = {
 	age:1,
-	prop:{ addr:1 }
+	prop:{ addr:1 },
+  notExist: 1
 }
 
 describe('Test a/b with lib', function  () {
+
+	it('hasOwnProperty test', function(){
+    var x = Object.create(b)
+    x.age = 30
+    expect(lib.extend(a,x)).deep.equal(
+      {
+        name:"James",
+        age:30,
+        prop:{
+		      addr:"ABC",
+		      sn:1001,
+		      order:[
+            {item:'apple', number:10},
+            {item:'pear', number:23}
+          ]
+        }
+      }
+    )
+  })
+
 	it('@ extend b to a', function(){
     expect(lib.extend(a,b)).deep.equal(
       {
@@ -146,6 +167,20 @@ describe('Test a/b with lib', function  () {
       JSON.stringify({
         "prop":{"order":[null,{"item":"pear","number":23}]}
       })
+    )
+	})
+
+	it('@ pick2 with normal obj', function(){
+		var val = lib.pick2({a:3, b:{c:2, d:3}}, {a:1, b:{c:1}})
+		expect( val ).to.deep.equal(
+      {b:{d:3}}
+    )
+	})
+
+	it('@ pick2 with falsy obj', function(){
+		var val = lib.pick2({a:3, b:{c:2}})
+		expect( val ).to.deep.equal(
+      {a:3, b:{c:2}}
     )
 	})
 

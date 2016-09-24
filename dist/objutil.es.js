@@ -62,7 +62,7 @@ function exclude (x, y, isSet) {
     if (isPrimitive(b[key])) {
       isSet
         ? (key in a ? a[key] = b[key] : '')
-      : (b[key] ? delete a[key] : '')
+      : b[key] && delete a[key]
     }
   })
 }
@@ -78,7 +78,7 @@ function pick(obj, props) {
 }
 
 function pick2(obj, props) {
-  props=props||{}
+  if(!props) return obj
   var o={}
   return deepIt(o, obj, function(a,b,key,path){
     var c = get(props,path.concat(key))

@@ -61,6 +61,13 @@ describe('Test a/b with lib', function  () {
     )
   })
 
+	it('@ invert obj', function(){
+    expect(lib.invert({a:1, b:{c:2}, d:'xyz'})).deep.equal({
+      1:'a',
+      xyz: 'd'
+    })
+  })
+
 	it('@ assign b to a', function(){
     expect(lib.assign(a,b)).deep.equal(
       {

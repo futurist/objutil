@@ -11,7 +11,7 @@ var argv = process.argv
 // scripts: {
 //   "objutil": "rollup -c ./node_modules/objutil/rollup.config.js --api 'assign'"
 // }
-var vars = 'is, own, isIterable, isPrimitive, deepIt, get, assign, assign as extend, merge, exclude, pick, defaults'
+var vars = 'is, own, isIterable, isPrimitive, deepIt, get, invert, assign, assign as extend, merge, exclude, pick, defaults'
 var pos = argv.indexOf('--api')
 if(pos>0 && argv[pos+1]) vars = argv[pos+1]
 
@@ -27,6 +27,7 @@ export default {
   ],
   moduleName: 'objutil',
   moduleId: 'objutil',
+  legacy: true,
   targets: [
     { format: 'iife', dest: path.join(__dirname, 'dist/objutil.iife.js') },
     { format: 'amd',  dest: path.join(__dirname, 'dist/objutil.amd.js')  },
@@ -40,7 +41,10 @@ function objTransform () {
     transform: function(code) {
       return code + exportStr
     },
-    transformBundle: function (code) {
+    // since rollup 0.36.3, legacy:true is supported
+    // below line should removed
+    transformBundle: function (code, option) {
+      // should only check amd,umd,cjs
       // https://github.com/futurist/rollup-plugin-es3
       return  code.replace(/^\s*Object\.defineProperty\(exports,\s*'__esModule'.*\n$/mi, '')
     }

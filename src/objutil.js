@@ -34,6 +34,14 @@ function get(obj, p, errNotFound) {
   return n
 }
 
+function invert (obj) {
+  var newObj={}
+  deepIt(newObj, obj, function(a,b,key) {
+    if(isPrimitive(b[key])) a[b[key]] = key
+  })
+  return newObj
+}
+
 function assign () {
   var arg = arguments, last
   for(var i=arg.length; i--;) {

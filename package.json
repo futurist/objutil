@@ -1,9 +1,10 @@
 {
   "name": "objutil",
-  "version": "2.0.2",
+  "version": "2.0.3",
   "description": "Javascript Object util methods, with ES6 tree shaking methods: assign(extend), merge, exclude, default, pick. Customize the APIs into one file.",
   "main": "dist/objutil.cjs.js",
   "jsnext:main": "dist/objutil.es.js",
+  "files": ["dist", "*.json"],
   "scripts": {
     "travis-before_install": "npm install -g grunt-cli",
     "travis-test": "grunt jshint && npm test",

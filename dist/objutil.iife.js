@@ -2,7 +2,7 @@
 'use strict';
 
 // better type check
-var is = function (t, v) { return {}.toString.call(v).slice(8, -1) === t };
+var is = function (t, v) { return {}.toString.call(v) === '[object ' + t + ']' };
 var own = function (o, k) { return {}.hasOwnProperty.call(o, k) };
 
 function isIterable (v) {

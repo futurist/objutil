@@ -162,6 +162,21 @@ get(a, ['x', 'y'], true)
 ```
 
 
+### defaults( obj, defaultObj )
+
+> **deeply merge defaultObj key/val into obj, only when it's not existing in obj**
+
+*defaults( {a:1}, {a:2, b:5 } )*
+
+```javascript
+//result=>
+{
+  a:1,
+  b:5
+}
+```
+
+
 ### deepIt( a, b, callback )
 
 > **Iterate b with deeply sync props of a, and callback(objA, objB, key)**

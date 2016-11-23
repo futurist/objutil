@@ -182,6 +182,10 @@ describe('Test a/b with lib', function  () {
 		expect( val ).to.deep.equal(
       {"prop":{"a":1,"order":[0,1]},"b":2,"c":30}
     )
+		val = lib.defaults(undefined, {prop:{a:10, order:[0,1]}, b:20, c:30})
+		expect( val ).to.deep.equal(
+      {prop:{a:10, order:[0,1]}, b:20, c:30}
+    )
 	})
 
 })

@@ -89,6 +89,7 @@ function pick(obj, props) {
 }
 
 function defaults(obj, option) {
+  obj = obj || {};
   return deepIt(obj, option, function(a,b,key){
     if(!(key in a)) a[key]=b[key];
   })

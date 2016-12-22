@@ -3,12 +3,14 @@
   "version": "2.0.7",
   "description": "Javascript Object util methods, with ES6 tree shaking methods: assign(extend), merge, exclude, default, pick. Customize the APIs into one file.",
   "main": "dist/objutil.cjs.js",
+  "browser": "dist/objutil.iife.js",
   "jsnext:main": "dist/objutil.es.js",
   "scripts": {
     "travis-before_install": "npm install -g grunt-cli",
     "travis-test": "grunt jshint && npm test",
-    "make": "rollup -c && cd dist && uglifyjs objutil.iife.js -c -m -o objutil.min.js && grunt bump",
-    "pretest": "rollup -c",
+    "build": "rm -f ./api.log && rollup -c",
+    "make": "grunt bump && npm run build && cd dist && uglifyjs objutil.iife.js -c -m -o objutil.min.js",
+    "pretest": "npm run build",
     "test": "grunt jshint && istanbul cover _mocha",
     "coveralls": "istanbul cover ./node_modules/mocha/bin/_mocha --report lcovonly -- -R spec && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage"
   },

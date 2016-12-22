@@ -20,6 +20,20 @@ var exportStr = '\nexport { '+ vars +' }'
 
 // console.log(exportStr)
 
+// not rollup again if api.log is same
+var force = argv.indexOf('-f') >= 0 || argv.indexOf('--force') >= 0
+var apiPath = path.join(__dirname, './api.log')
+try {
+  var prevAPI = fs.readFileSync(apiPath, 'utf8')
+} catch(e){}
+
+if(prevAPI === vars && !force) {
+  process.exit(0)
+}
+
+console.log('[objutil] will generate new api:\n', vars)
+fs.writeFileSync(apiPath, vars, 'utf8')
+
 export default {
   entry: entry,
   plugins: [

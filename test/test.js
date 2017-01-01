@@ -103,7 +103,7 @@ describe('Test a/b with lib', function  () {
     expect(lib.merge({}, {plugins:{value:'asdf'}})).deep.equal({plugins:{value:'asdf'}})
   })
 
-	it('@ merge with multiple args', function(){
+	it('@ merge with multiple args', function() {
 		expect( lib.merge(a,b,c) ).to.be.deep.equal(
 			{
 				"name": "James",
@@ -186,6 +186,24 @@ describe('Test a/b with lib', function  () {
 		expect( val ).to.deep.equal(
       {prop:{a:10, order:[0,1]}, b:20, c:30}
     )
+	})
+
+	it('@ isEqual', function(){
+    // not strict equal
+		expect( lib.isEqual({a:1, b:2}, {a:1, b:2}) ).ok
+		expect( lib.isEqual({a:1, b:2}, {a:1, b:'2'}) ).ok
+		expect( lib.isEqual({a:1, b:2}, {a:2, b:2}) ).not.ok
+		expect( lib.isEqual({a:1, b:{d:3}}, {a:1, b:{d:3}}) ).ok
+		expect( lib.isEqual(null, {a:1, b:{d:3}}) ).not.ok
+		expect( lib.isEqual({a:1, b:{d:3}}, null) ).not.ok
+		expect( lib.isEqual(null, null) ).ok
+
+    // isStrict
+		expect( lib.isEqual({a:1, b:{d:'3'}}, {a:1, b:{d:3}}, true) ).not.ok
+		expect( lib.isEqual({a:1, b:{d:3}}, {a:1, b:{d:3}}, true) ).ok
+		expect( lib.isEqual(null, {a:1, b:{d:3}}, true) ).not.ok
+		expect( lib.isEqual({a:1, b:{d:3}}, null, true) ).not.ok
+		expect( lib.isEqual(null, null, true) ).ok
 	})
 
 })

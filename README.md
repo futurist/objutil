@@ -9,27 +9,30 @@ Javascript Object util methods, with ES6 tree shaking methods: assign(extend), m
 
 ## Why?
 
-Why? There's so many, [lodash](https://github.com/lodash/lodash/), [underscore](https://github.com/jashkenas/underscore), etc.
+Simple, it's small, and support [tree shaking](http://javascriptplayground.com/blog/2016/02/better-bundles-rollup/) to select only the methods you want
 
-Assume you are using lodash, it's painful when you only want `_.assign`, after `npm i lodash.assign`, the package `4.2.0` has **16KB**, uglified as **4.5KB**, really big for just a `Object.assign` polyfill.
+Think [lodash](https://github.com/lodash/lodash/), `_.assign` and `_.defaults`, the total size is 31KB, this lib is **0.7KB!**
 
-When you want 2 methods, like `_.assign` and `_.defaults`, the total size is **31KB**, even there's **so many code in common, it's not optimized at all!**
+## How?
 
+First, you need install [rollup](https://github.com/rollup/rollup).
 
-## Solution
-
-Using [ES6 tree shaking](http://javascriptplayground.com/blog/2016/02/better-bundles-rollup/) with [rollup](https://github.com/rollup/rollup), it's possible to keep the code you need only, and keep optimized in size and execution.
-
-With `objutil`, you can solve this problem as below:
+And select the API by below command line:
 
 ``` javascript
 rollup -c --api assign,defaults
 ```
 
-This will tree shaking from source, and leave only `objutil.assign, objutil.defaults` methods with **one file**.
+Or add below line in **your npm scripts** of `package.json`:
 
-The uglified size: **0.7KB!**
+``` javascript
+scripts: {
+  ...
+  "objutil": "rollup -c ./node_modules/objutil/rollup.config.js --api assign,pick"
+}
+```
 
+This will tree shaking the lib, leave only `objutil.assign, objutil.defaults` methods
 
 ## Install
 
@@ -178,6 +181,16 @@ get(a, ['x', 'y'], true)
 }
 ```
 
+### deepEqual( objA, objB )
+
+> **deeply compare objA and objB for equality**
+
+*deepEqual( {a:1, b:2}, {a:1, b:2 } )*
+
+```javascript
+//result=> true
+```
+
 
 ### deepIt( a, b, callback )
 
@@ -189,26 +202,5 @@ deepIt( a, b, function(objA,objB,key){
 } )
 // ---> same result of assign(a,b)
 ```
-
-## Tree Shaking
-
-First, you need install [rollup](https://github.com/rollup/rollup).
-
-Then pass the API methods you want in command line:
-
-``` shell
-rollup -c --api assign,pick
-```
-
-You can add above as **your npm scripts** in `package.json`:
-
-``` javascript
-scripts: {
-  ...
-  "objutil": "rollup -c ./node_modules/objutil/rollup.config.js --api assign,pick"
-}
-```
-
-That way it's rebuild from source, keep code minimum.
 
 ### MIT

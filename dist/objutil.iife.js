@@ -18,7 +18,8 @@ function deepIt (a, b, callback, path) {
   if (isPrimitive(b)) return a
   for ( var key in b) {
     if (!own(b, key)) continue
-    callback(a, b, key, path, key in a);
+    // return false stop the iteration
+    if (callback(a, b, key, path) === false) break
     if (isIterable(b[key]) && isIterable(a[key])) {
       deepIt(a[key], b[key], callback, path.concat(key));
     }
@@ -57,8 +58,8 @@ function assign () {
 function merge () {
   var arg = arguments, last;
   for(var i=arg.length; i--;) {
-    last = deepIt(arg[i], last, function (a, b, key, path, inA) {
-      if(!inA || isPrimitive(b[key])) a[key] = b[key];
+    last = deepIt(arg[i], last, function (a, b, key, path) {
+      if(!(key in a) || isPrimitive(b[key])) a[key] = b[key];
     });
   }
   return last
@@ -76,6 +77,17 @@ function exclude (x, y, isSet) {
       : b[key] && delete a[key];
     }
   })
+}
+
+function isEqual (x, y, isStrict) {
+  var equal = true;
+  // if b===null, then don't iterate, so here compare first
+  if (isPrimitive(x) || isPrimitive(y)) return isStrict ? x===y : x==y
+  deepIt(x, y, function (a, b, key) {
+    if ((isPrimitive(a[key]) || isPrimitive(b[key])) && (isStrict ? b[key] !== a[key] : b[key] != a[key] ))
+      return (equal = false)
+  });
+  return equal
 }
 
 function pick(obj, props) {
@@ -108,5 +120,6 @@ exports.merge = merge;
 exports.exclude = exclude;
 exports.pick = pick;
 exports.defaults = defaults;
+exports.isEqual = isEqual;
 
 }((this.objutil = this.objutil || {})));

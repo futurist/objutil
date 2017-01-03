@@ -177,6 +177,16 @@ describe('Test a/b with lib', function  () {
     )
 	})
 
+	it('@ pick with exist obj path 3', function(){
+		var val = lib.pick({a:10, b:2, c:{d:3}}, {a:1, c:{d:1}})
+		expect( val ).to.deep.equal(
+      {
+        a:10,
+        c:{d: 3}
+      }
+    )
+	})
+
 	it('@ defaults with object', function(){
 		var val = lib.defaults({prop:{a:1}, b:2}, {prop:{a:10, order:[0,1]}, b:20, c:30})
 		expect( val ).to.deep.equal(

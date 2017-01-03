@@ -100,8 +100,9 @@ function pick(obj, props) {
     var c = get(obj,path.concat(key));
     // c[1] > 0: not found from obj
     if(!b[key] || c[1]) return
-    if(!isPrimitive(c[0])) a[key] = is('Array', c[0]) ? [] : {};
-    if(isPrimitive(b[key])) a[key] = c[0];
+    var d = c[0];  // c[0] is the data
+    if(!isPrimitive(d)) a[key] = is('Array', d) ? [] : {};
+    if(isPrimitive(b[key])) a[key] = d;
   })
 }
 

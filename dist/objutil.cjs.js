@@ -26,14 +26,21 @@ function deepIt (a, b, callback, path) {
   return a
 }
 
-function get(obj, p, errNotFound) {
+/**
+ * Get data from obj, using path
+ * @param {} obj
+ * @param {} path
+ * @param {} errNotFound
+ * @returns {}
+ */
+function get(obj, path, errNotFound) {
   var n = obj;
-  for(var i = 0, len = p.length; i < len; i++) {
-    if(!isIterable(n) || !(p[i] in n))
-      return errNotFound ? new Error('NotFound') : undefined
-    n = n[p[i]];
+  for(var i = 0, len = path.length; i < len; i++) {
+    if(!isIterable(n) || !(path[i] in n))
+      return errNotFound ? new Error('NotFound') : [undefined, 1] // [data, errorCode>0]
+    n = n[path[i]];
   }
-  return n
+  return [n]
 }
 
 function invert (obj) {
@@ -93,9 +100,10 @@ function pick(obj, props) {
   var o={};
   return deepIt(o, props, function(a,b,key,path){
     var c = get(obj,path.concat(key));
-    if(!b[key]) return
-    if(!isPrimitive(c)) a[key] = is('Array', c) ? [] : {};
-    if(isPrimitive(b[key])) a[key] = c;
+    // c[1] > 0: not found from obj
+    if(!b[key] || c[1]) return
+    if(!isPrimitive(c[0])) a[key] = is('Array', c[0]) ? [] : {};
+    if(isPrimitive(b[key])) a[key] = c[0];
   })
 }
 

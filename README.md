@@ -76,16 +76,23 @@ exclude(a,b)
 
 ### get( obj, pathArray, isThrow )
 
-> **Get object value from pathArray. When not found, throw error if isThrow is true, else return undefined**
+> **Get object value from pathArray. When not found, throw error if isThrow is true, else return [undefined, 1]**
+
+The result, if not isThrow, is the form: `[data, errorCode]`, errorCode===1, indicate: `not found`, if path exists, return `[data]`, indicate no error.
 
 *get( a, ['y', 'z'] )*
 
 ```javascript
 //result is
-2
+[2]
 
 //throw error when not found
 get(a, ['x', 'y'], true)
+
+//return with error code
+get(a, ['x', 'y'])
+[undefined, 1]
+
 ```
 
 ### assign( obj, ...args )
@@ -153,6 +160,8 @@ get(a, ['x', 'y'], true)
 ### pick( obj, pickObject)
 
 > **Like exclude, but return the reversed result. Deeply keep from pickObject (if key has a truthy value) from obj**
+
+If obj is `primitive types`, then always return `{}`
 
 *pick( a, {x:true, y:{z:true} } )*
 

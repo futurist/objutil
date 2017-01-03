@@ -141,17 +141,17 @@ describe('Test a/b with lib', function  () {
 
 	it('@ get with exist path', function(){
 		var val = lib.get(a, ['prop', 'order', 1, 'item'])
-		expect( val ).is.deep.equal('pear')
+		expect( val ).is.deep.equal(['pear'])
 	})
 
 	it('@ get with non-exist path', function(){
 		var val = lib.get(a, 'prop/order/2/item'.split('/'))
-		expect( val ).to.be.undefined
+		expect( val ).to.deep.equal([undefined, 1])
 	})
 
 	it('@ get with primitive path', function(){
 		var val = lib.get({prop:1}, 'prop/order/2/item'.split('/'))
-		expect( val ).to.be.undefined
+		expect( val ).to.be.deep.equal([undefined, 1])
 	})
 
 	it('@ get return Error on not found', function(){
@@ -176,6 +176,17 @@ describe('Test a/b with lib', function  () {
       })
     )
 	})
+
+	it('@ pick with null', function() {
+		var val = lib.pick(null, {a:1, c:{d:1}})
+    expect(val).to.deep.equal({})
+
+		val = lib.pick(3234, {a:1, c:{d:1}})
+    expect(val).to.deep.equal({})
+
+		val = lib.pick('sdoif', {a:1, c:{d:1}})
+    expect(val).to.deep.equal({})
+  })
 
 	it('@ pick with exist obj path 3', function(){
 		var val = lib.pick({a:10, b:2, c:{d:3}}, {a:1, c:{d:1}})

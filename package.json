@@ -1,6 +1,6 @@
 {
   "name": "objutil",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "description": "Javascript Object util, support tree shaking methods: assign(extend), merge, exclude, default, pick, isEqual. Customize the APIs into one file.",
   "main": "dist/objutil.cjs.js",
   "browser": "dist/objutil.iife.js",

@@ -97,10 +97,10 @@ function isEqual (x, y, isStrict) {
 function pick(obj, props) {
   var o={};
   return deepIt(o, props, function(a,b,key,path){
-    var c = get(obj,path.concat(key));
+    var d, c = get(obj,path.concat(key));
     // c[1] > 0: not found from obj
     if(!b[key] || c[1]) return
-    var d = c[0];  // c[0] is the data
+    d = c[0];  // c[0] is the data
     if(!isPrimitive(d)) a[key] = is('Array', d) ? [] : {};
     if(isPrimitive(b[key])) a[key] = d;
   })

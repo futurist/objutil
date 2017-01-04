@@ -1,4 +1,4 @@
-define('objutil', ['exports'], function (exports) { 'use strict';
+define(['exports'], function (exports) { 'use strict';
 
 // better type check
 var is = function (t, v) { return {}.toString.call(v) === '[object ' + t + ']' };
@@ -41,6 +41,13 @@ function get(obj, path, errNotFound) {
     n = n[path[i]];
   }
   return [n]
+}
+
+function visit(obj, fn) {
+  return deepIt(obj, obj, function(a,b,key,path) {
+    // value, key, collection, path
+    return fn(a[key], key, path, a)
+  })
 }
 
 function invert (obj) {
@@ -129,5 +136,6 @@ exports.exclude = exclude;
 exports.pick = pick;
 exports.defaults = defaults;
 exports.isEqual = isEqual;
+exports.visit = visit;
 
 });

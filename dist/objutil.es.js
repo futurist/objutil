@@ -41,6 +41,13 @@ function get(obj, path, errNotFound) {
   return [n]
 }
 
+function visit(obj, fn) {
+  return deepIt(obj, obj, function(a,b,key,path) {
+    // value, key, collection, path
+    return fn(a[key], key, path, a)
+  })
+}
+
 function invert (obj) {
   var newObj={};
   deepIt(newObj, obj, function(a,b,key) {
@@ -113,4 +120,4 @@ function defaults(obj, option) {
   })
 }
 
-export { is, own, isIterable, isPrimitive, deepIt, get, invert, assign, assign as extend, merge, exclude, pick, defaults, isEqual };
+export { is, own, isIterable, isPrimitive, deepIt, get, invert, assign, assign as extend, merge, exclude, pick, defaults, isEqual, visit };

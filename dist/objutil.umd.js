@@ -1,5 +1,8 @@
-(function (exports) {
-'use strict';
+(function (global, factory) {
+  typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
+  typeof define === 'function' && define.amd ? define(['exports'], factory) :
+  (factory((global.objutil = global.objutil || {})));
+}(this, (function (exports) { 'use strict';
 
 // better type check
 var is = function (t, v) { return {}.toString.call(v) === '[object ' + t + ']' };
@@ -139,4 +142,4 @@ exports.defaults = defaults;
 exports.isEqual = isEqual;
 exports.visit = visit;
 
-}((this.objutil = this.objutil || {})));
+})));

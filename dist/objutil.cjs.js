@@ -43,6 +43,13 @@ function get(obj, path, errNotFound) {
   return [n]
 }
 
+function visit(obj, fn) {
+  return deepIt(obj, obj, function(a,b,key,path) {
+    // value, key, collection, path
+    return fn(a[key], key, path, a)
+  })
+}
+
 function invert (obj) {
   var newObj={};
   deepIt(newObj, obj, function(a,b,key) {
@@ -129,3 +136,4 @@ exports.exclude = exclude;
 exports.pick = pick;
 exports.defaults = defaults;
 exports.isEqual = isEqual;
+exports.visit = visit;

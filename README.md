@@ -1,6 +1,6 @@
 # objutil
 
-Javascript Object util methods, with ES6 tree shaking methods: assign(extend), merge, exclude, default, pick. Customize the APIs into one file.
+Javascript Object util methods with deep traverse, with ES6 tree shaking methods: assign(extend), merge, exclude, default, pick. Customize the APIs into one file.
 
 [![Build Status](https://travis-ci.org/futurist/objutil.svg?branch=master)](https://travis-ci.org/futurist/objutil)
 <a href='https://coveralls.io/github/futurist/objutil?branch=master'><img src='https://coveralls.io/repos/github/futurist/objutil/badge.svg?branch=master' alt='Coverage Status' /></a>
@@ -9,30 +9,55 @@ Javascript Object util methods, with ES6 tree shaking methods: assign(extend), m
 
 ## Why?
 
-Simple, it's small, and support [tree shaking](http://javascriptplayground.com/blog/2016/02/better-bundles-rollup/) to select only the methods you want
+Javascript internally missing the `Object` utils, compared with good `Array` API support (`forEach`, `filter`, etc.)
 
-Think [lodash](https://github.com/lodash/lodash/), `_.assign` and `_.defaults`, the total size is 31KB, this lib is **0.7KB!**
+`objutil` provide util methods **only** for `Object`, like `Object.pick`, `Object.defaults`, `Object.get` etc.
+
+#### Features
+
+1. Small, **dynamically generate API** using [tree shaking](http://javascriptplayground.com/blog/2016/02/better-bundles-rollup/) to select only the methods you want, remove unused code for size optimization
+
+ >  [lodash](https://github.com/lodash/lodash/), `_.assign` and `_.defaults`: **31KB** <kbd>VS</kbd> `objutil version`: **0.7KB!**
+
+2. **Deep by default**: all methods is deeply operation, like below:
+
+  ```javascript
+  pick(
+      { a:2, b:{c:3}, d:4 },  //src object
+      { b:{c:1}, d:1 }   // selection
+  )
+  // => { b:{c:3}, d:4 }
+  ```
 
 ## How?
 
-First, you need install [rollup](https://github.com/rollup/rollup).
+If you don't need **dynamically generate API**, all methods is **out of box**, nothing needed.
 
-And select the API by below command line:
+If you need generate API for yourself, do below:
 
-``` javascript
-rollup -c --api assign,defaults
-```
+1. Install [rollup](https://github.com/rollup/rollup): `npm install -g rollup`
 
-Or add below line in **your npm scripts** of `package.json`:
+2. Select the API by below command line:
 
-``` javascript
-scripts: {
-  ...
-  "objutil": "rollup -c ./node_modules/objutil/rollup.config.js --api assign,pick"
-}
-```
+  ``` javascript
+  rollup -c --api assign,defaults
+  ```
 
-This will tree shaking the lib, leave only `objutil.assign, objutil.defaults` methods
+  ``` javascript
+  rollup -c --api 'isPrimitive as isP, isIterable as isT'
+  // then use objutil.isP as `isPrimitive`, etc.
+  ```
+
+  Or add below line in **your npm scripts** of `package.json`:
+
+  ``` javascript
+  scripts: {
+    ...
+    "objutil": "rollup -c ./node_modules/objutil/rollup.config.js --api assign,pick"
+  }
+  ```
+
+  This will tree shake the lib, leave only `objutil.assign, objutil.defaults` methods
 
 ## Install
 
@@ -40,6 +65,12 @@ This will tree shaking the lib, leave only `objutil.assign, objutil.defaults` me
 
 ``` shell
 npm install objutil
+```
+
+- Browser
+
+``` shell
+<script src="https://unpkg.com/objutil"></script>
 ```
 
 ## Quick Start:
@@ -73,6 +104,26 @@ exclude(a,b)
 ```
 
 ## API
+
+### visit( obj, fn )
+
+> **Visit each obj node (key:value pair), with fn(value, key, path, source)**
+
+**value & key** is current value and key pair
+
+**path** is the current object path for the key,
+`[]` indicate the root path,
+`['a', 'b']` is the path of node `x:1` in `{ a: { b: {x:1} } }`
+
+*visit( {a:2, b:{c:3}}, (val, key, path) => console.log(key, val, path) )*
+
+```javascript
+// prints
+a 2 []
+b {c:3} []
+c 3 ['b']
+```
+
 
 ### get( obj, pathArray, isThrow )
 

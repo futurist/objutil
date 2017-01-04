@@ -209,6 +209,34 @@ describe('Test a/b with lib', function  () {
     )
 	})
 
+	it('@ visit', function(){
+    var called=false
+    var obj = {a:1, b:{d:3}}
+    var keys = ['a', 'b', 'd']
+    var paths = [
+      [],
+      [],
+      ['b']
+    ]
+
+    lib.visit(null, function() { called = true })
+    expect(called).equal(false)
+
+    lib.visit("string", function() { called = true })
+    expect(called).equal(false)
+
+    lib.visit(234, function() { called = true })
+    expect(called).equal(false)
+
+    lib.visit(obj, function(value, key, path, source) {
+      expect(key).eql(keys.shift())
+      expect(path).deep.eql(paths.shift())
+    })
+
+    expect(keys.length).eql(0)
+
+  })
+
 	it('@ isEqual', function(){
     // not strict equal
 		expect( lib.isEqual({a:1, b:2}, {a:1, b:2}) ).ok

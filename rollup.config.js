@@ -11,7 +11,7 @@ var argv = process.argv
 // scripts: {
 //   "objutil": "rollup -c ./node_modules/objutil/rollup.config.js --api 'assign'"
 // }
-var vars = 'is, own, isIterable, isPrimitive, deepIt, get, invert, assign, assign as extend, merge, exclude, pick, defaults, isEqual'
+var vars = 'is, own, isIterable, isPrimitive, deepIt, get, invert, assign, assign as extend, merge, exclude, pick, defaults, isEqual, visit'
 var pos = argv.indexOf('--api')
 if(pos>0 && argv[pos+1]) vars = argv[pos+1]
 
@@ -40,11 +40,11 @@ export default {
     objTransform()
   ],
   moduleName: 'objutil',
-  moduleId: 'objutil',
   legacy: true,
   targets: [
     { format: 'iife', dest: path.join(__dirname, 'dist/objutil.iife.js') },
     { format: 'amd',  dest: path.join(__dirname, 'dist/objutil.amd.js')  },
+    { format: 'umd',  dest: path.join(__dirname, 'dist/objutil.umd.js')  },
     { format: 'cjs',  dest: path.join(__dirname, 'dist/objutil.cjs.js')  },
     { format: 'es',   dest: path.join(__dirname, 'dist/objutil.es.js')   }
   ]

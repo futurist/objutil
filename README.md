@@ -1,6 +1,6 @@
 # objutil
 
-Javascript Object util methods with deep traverse, with ES6 tree shaking methods: assign(extend), merge, exclude, default, pick. Customize the APIs into one file.
+Javascript Object util methods with deep traverse, with ES6 tree shaking methods: visit, assign(extend), merge, exclude, default, pick. Customize the APIs into one file.
 
 [![Build Status](https://travis-ci.org/futurist/objutil.svg?branch=master)](https://travis-ci.org/futurist/objutil)
 <a href='https://coveralls.io/github/futurist/objutil?branch=master'><img src='https://coveralls.io/repos/github/futurist/objutil/badge.svg?branch=master' alt='Coverage Status' /></a>
@@ -9,9 +9,9 @@ Javascript Object util methods with deep traverse, with ES6 tree shaking methods
 
 ## Why?
 
-Javascript internally missing the `Object` utils, compared with good `Array` API support (`forEach`, `filter`, etc.)
+Compared with `Array`, javascript missing the `Object` utils, think `Array.prototype.filter, Array.prototype.map` conterpart of `Object`
 
-`objutil` provide util methods **only** for `Object`, like `Object.pick`, `Object.defaults`, `Object.get` etc.
+Unlike **lodash**, `objutil` **only** provide methods for `Object`, like `Object.pick`, `Object.defaults`, `Object.get` etc, small and customizable
 
 #### Features
 
@@ -115,7 +115,7 @@ exclude(a,b)
 `[]` indicate the root path,
 `['a', 'b']` is the path of node `x:1` in `{ a: { b: {x:1} } }`
 
-*visit( {a:2, b:{c:3}}, (val, key, path) => console.log(key, val, path) )*
+`visit( {a:2, b:{c:3}}, (val, key, path) => console.log(key, val, path) )`
 
 ```javascript
 // prints
@@ -131,7 +131,7 @@ c 3 ['b']
 
 The result, if not isThrow, is the form: `[data, errorCode]`, errorCode===1, indicate: `not found`, if path exists, return `[data]`, indicate no error.
 
-*get( a, ['y', 'z'] )*
+`get( a, ['y', 'z'] )`
 
 ```javascript
 //result is
@@ -150,7 +150,8 @@ get(a, ['x', 'y'])
 
 > **Deeply assign args properties into obj, from right to left order.**
 
-*assign( a, b, {w:3} )*
+`assign( a, b, {w:3} )`
+
 ```javascript
 //result=>
 {
@@ -167,7 +168,8 @@ get(a, ['x', 'y'])
 
 > **Deeply merge args properties into obj, from right to left order.**
 
-*merge( a, b, {y:{v:3}} )*
+`merge( a, b, {y:{v:3}} )`
+
 ```javascript
 //result=>
 {
@@ -185,7 +187,7 @@ get(a, ['x', 'y'])
 
 > **Deeply delete excludeObj(if key has a truthy value) from obj, optionally set to newValue if present**
 
-*exclude( a, { y:{z:true} } )*
+`exclude( a, { y:{z:true} } )`
 
 ```javascript
 //result=>
@@ -196,7 +198,9 @@ get(a, ['x', 'y'])
   }
 }
 ```
-*exclude( a, { y:{z:true} } , null)*
+
+`exclude( a, { y:{z:true} } , null)`
+
 ```javascript
 //result=>
 {
@@ -214,7 +218,7 @@ get(a, ['x', 'y'])
 
 If obj is `primitive types`, then always return `{}`
 
-*pick( a, {x:true, y:{z:true} } )*
+`pick( a, {x:true, y:{z:true} } )`
 
 ```javascript
 //result=>
@@ -231,7 +235,7 @@ If obj is `primitive types`, then always return `{}`
 
 > **deeply merge defaultObj key/val into obj, only when it's not existing in obj**
 
-*defaults( {a:1}, {a:2, b:5 } )*
+`defaults( {a:1}, {a:2, b:5 } )`
 
 ```javascript
 //result=>
@@ -245,7 +249,7 @@ If obj is `primitive types`, then always return `{}`
 
 > **deeply compare objA and objB for equality**
 
-*deepEqual( {a:1, b:2}, {a:1, b:2 } )*
+`deepEqual( {a:1, b:2}, {a:1, b:2 } )`
 
 ```javascript
 //result=> true

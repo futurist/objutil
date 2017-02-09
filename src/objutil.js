@@ -1,10 +1,10 @@
 
 // better type check
-var is = function (t, v) { return {}.toString.call(v) === '[object ' + t + ']' }
-var own = function (o, k) { return {}.hasOwnProperty.call(o, k) }
+var is = function (val, type) { return {}.toString.call(val) === '[object ' + type + ']' }
+var own = function (obj, key) { return {}.hasOwnProperty.call(obj, key) }
 
 function isIterable (v) {
-  return is('Object', v) || is('Array', v) || is('Map', v)
+  return is(v, 'Object') || is(v, 'Array') || is(v, 'Map')
 }
 
 function isPrimitive (val) {
@@ -125,7 +125,7 @@ function pick (obj, props) {
     // c[1] > 0: not found from obj
     if (!b[key] || c[1]) return
     d = c[0]  // c[0] is the data
-    if (!isPrimitive(d)) a[key] = is('Array', d) ? [] : {}
+    if (!isPrimitive(d)) a[key] = is(d, 'Array') ? [] : {}
     if (isPrimitive(b[key])) a[key] = d
   })
 }

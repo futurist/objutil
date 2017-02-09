@@ -160,6 +160,41 @@ describe('Test a/b with lib', function  () {
 		expect( val.message ).to.equal('NotFound')
 	})
 
+	it('@ get return non-array value when set 3rd arg', function() {
+		var val = lib.get({prop:{value: 1}}, 'prop/value'.split('/'), true)
+		expect( val ).to.eql(1)
+	})
+
+	it('@ get using string as path (dot path)', function() {
+		var val = lib.get({prop:{value: 1}}, 'prop.value', true)
+		expect( val ).to.eql(1)
+	})
+
+	it('@ set using string (dot path)', function() {
+		var val = lib.set({}, 'prop.value', 1)
+		expect( val ).to.deep.eql({prop:{value:1}})
+	})
+
+	it('@ set using array path', function() {
+		var val = lib.set({}, 'prop.value'.split('.'), 1)
+		expect( val ).to.deep.eql({prop:{value:1}})
+	})
+
+	it('@ set with existing path', function() {
+		var val = lib.set({prop:{}}, 'prop.value.key'.split('.'), 1)
+		expect( val ).to.deep.eql({prop:{value:{key:1}}})
+	})
+
+	it('@ set with primitive path', function() {
+		var val = lib.set({prop: 2}, 'prop.value.key'.split('.'), 1)
+		expect( val ).to.be.an('error')
+	})
+
+	it('@ set with primitive obj', function() {
+		var val = lib.set(234, 'prop.value.key'.split('.'), 1)
+		expect( val ).to.eql(234)
+	})
+
 
 	it('@ pick with exist obj path 1', function(){
 		var val = lib.pick({a:3, b:{c:2}}, {prop:{order:[0,1]}})

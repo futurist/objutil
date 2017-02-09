@@ -1,6 +1,6 @@
 # objutil
 
-Javascript Object util methods with deep traverse, with ES6 tree shaking methods: visit, assign(extend), merge, exclude, default, pick. Customize the APIs into one file.
+Javascript Object util methods with deep traverse, with ES6 tree shaking methods: get/set object path, visit, assign(extend), merge, exclude, default, pick. Customize the APIs into one file.
 
 [![Build Status](https://travis-ci.org/futurist/objutil.svg?branch=master)](https://travis-ci.org/futurist/objutil)
 <a href='https://coveralls.io/github/futurist/objutil?branch=master'><img src='https://coveralls.io/repos/github/futurist/objutil/badge.svg?branch=master' alt='Coverage Status' /></a>
@@ -23,7 +23,7 @@ Unlike **lodash**, `objutil` **only** provide methods for `Object`, like `Object
 
   ```javascript
   pick(
-      { a:2, b:{c:3}, d:4 },  //src object
+      { a:2, b:{c:3, e:5}, d:4 },  //src object
       { b:{c:1}, d:1 }   // selection
   )
   // => { b:{c:3}, d:4 }
@@ -129,7 +129,11 @@ c 3 ['b']
 
 > **Get object value from pathArray. When not found, throw error if isThrow is true, else return [undefined, 1]**
 
-The result, if not isThrow, is the form: `[data, errorCode]`, errorCode===1, indicate: `not found`, if path exists, return `[data]`, indicate no error.
+The result, if NOT isThrow, is the form: `[data, errorCode]`, errorCode===1, indicate: `not found`.
+
+If path exists, return `[data]`, indicate no error.
+
+If isThrow, return `data` when found, return `Error('NotFound')` when not found.
 
 `get( a, ['y', 'z'] )`
 
@@ -144,6 +148,26 @@ get(a, ['x', 'y'], true)
 get(a, ['x', 'y'])
 [undefined, 1]
 
+```
+
+### set( obj, pathArray, value )
+
+> **Set object value from pathArray. When there's non-object in the path, throw error, return the final object**
+
+Set `pathArray` in `obj` to `value`, when the path not exist or all the intermediate is object.
+
+When found non-object value in intermediate, throw `Error('cannot set non-object path')`
+
+`set( {}, ['y', 'z'], 23 )`
+
+``` javascript
+//result is
+{ y: { z: 23 } }
+
+// but below will return Error object
+set( { y:1 }, ['y', 'z'], 23 )
+//result is
+Error('cannot set non-object path')
 ```
 
 ### assign( obj, ...args )

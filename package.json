@@ -1,7 +1,7 @@
 {
   "name": "objutil",
-  "version": "2.4.0",
-  "description": "Javascript Object util with deep traverse, support ES6 tree shaking methods: visit, assign(extend), merge, exclude, default, pick, isEqual. Customize the APIs into one file.",
+  "version": "2.4.1",
+  "description": "Javascript Object util with deep traverse, support ES6 tree shaking methods: get/set object path, visit, assign(extend), merge, exclude, default, pick, isEqual. Customize the APIs into one file.",
   "main": "dist/objutil.cjs.js",
   "browser": "dist/objutil.umd.js",
   "jsnext:main": "dist/objutil.es.js",

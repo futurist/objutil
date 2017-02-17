@@ -26,6 +26,11 @@ function deepIt (a, b, callback, path) {
   return a
 }
 
+function getPath(path) {
+  if (typeof path === 'string') path = path.split('.');
+  return path
+}
+
 /**
  * Get data from obj, using path
  * @param {} obj
@@ -35,7 +40,7 @@ function deepIt (a, b, callback, path) {
  */
 function get (obj, path, errNotFound) {
   var n = obj;
-  if (typeof path === 'string') path = path.split('.');
+  path = getPath(path);
   for (var i = 0, len = path.length; i < len; i++) {
     if (!isIterable(n) || !(path[i] in n)) { return errNotFound ? new Error('NotFound') : [undefined, 1] } // [data, errorCode>0]
     n = n[path[i]];
@@ -43,8 +48,17 @@ function get (obj, path, errNotFound) {
   return errNotFound ? n : [n]
 }
 
+function unset (obj, path) {
+  path = getPath(path);
+  var len = path.length;
+  if (!isIterable(obj) || !len) return
+  var arr = get(obj, path.slice(0,-1));
+  if(arr[1] || !isIterable(arr[0])) return false
+  return delete arr[0][path[len-1]]
+}
+
 function set (obj, path, value) {
-  if (typeof path === 'string') path = path.split('.');
+  path = getPath(path);
   if (!isIterable(obj) || !path.length) return obj
   var n = obj;
   for (var i = 0, len = path.length - 1; i < len; i++) {
@@ -145,6 +159,7 @@ exports.isPrimitive = isPrimitive;
 exports.deepIt = deepIt;
 exports.get = get;
 exports.set = set;
+exports.unset = unset;
 exports.invert = invert;
 exports.assign = assign;
 exports.extend = assign;

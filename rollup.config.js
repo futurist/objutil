@@ -11,7 +11,7 @@ var argv = process.argv
 // scripts: {
 //   "objutil": "rollup -c ./node_modules/objutil/rollup.config.js --api 'assign'"
 // }
-var vars = 'is, own, isIterable, isPrimitive, deepIt, get, set, invert, assign, assign as extend, merge, exclude, pick, defaults, isEqual, visit'
+var vars = 'is, own, isIterable, isPrimitive, deepIt, get, set, unset, invert, assign, assign as extend, merge, exclude, pick, defaults, isEqual, visit'
 var pos = argv.indexOf('--api')
 if (pos > 0 && argv[pos + 1]) vars = argv[pos + 1]
 

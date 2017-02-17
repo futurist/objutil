@@ -204,6 +204,11 @@ describe('Test a/b with lib', function () {
     var val = lib.unset(obj, 'prop.value')
     expect(val).to.eql(true)
     expect(obj).to.deep.eql({prop:{abc: 2}})
+
+    val = lib.unset(obj, 'prop')
+    expect(val).to.eql(true)
+    expect(obj).to.deep.eql({})
+
   })
 
   it('@ unset with non-exists key', function () {

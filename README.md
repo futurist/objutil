@@ -1,6 +1,6 @@
 # objutil
 
-Javascript Object util methods with deep traverse, with ES6 tree shaking methods: get/set object path, visit, assign(extend), merge, exclude, default, pick. Customize the APIs into one file.
+Javascript Object util methods with deep traverse, with ES6 tree shaking methods: get/set/unset/remove object path, visit, assign(extend), merge, exclude, default, pick. Customize the APIs into one file.
 
 [![Build Status](https://travis-ci.org/futurist/objutil.svg?branch=master)](https://travis-ci.org/futurist/objutil)
 <a href='https://coveralls.io/github/futurist/objutil?branch=master'><img src='https://coveralls.io/repos/github/futurist/objutil/badge.svg?branch=master' alt='Coverage Status' /></a>
@@ -168,6 +168,17 @@ When found non-object value in intermediate, throw `Error('cannot set non-object
 set( { y:1 }, ['y', 'z'], 23 )
 //result is
 Error('cannot set non-object path')
+```
+
+### unset( obj, pathArray )
+
+> **Unset object value from pathArray. When there's non-object in the path, return undefined, or true/false as result**
+
+`unset( {prop: {value: 1}}, 'prop.value' )`
+
+``` javascript
+//result is
+true
 ```
 
 ### assign( obj, ...args )

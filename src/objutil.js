@@ -47,6 +47,13 @@ function get (obj, path, errNotFound) {
   return errNotFound ? n : [n]
 }
 
+// ensure path exists
+function ensure (obj, path, defaultValue) {
+  path = getPath(path)
+  var arr = get(obj, path)
+  if(arr[1]) return set(obj, path, defaultValue)
+}
+
 function unset (obj, path) {
   path = getPath(path)
   var len = path.length
@@ -152,5 +159,5 @@ function defaults (obj, option) {
 }
 
 // below line will generate from rollup dynamically, see 'rollup.config.js' file
-// export { is, own, isIterable, isPrimitive, deepIt, get, set, unset, assign, exclude, pick, defaults, deepEqual }
+// export { is, own, isIterable, isPrimitive, deepIt, get, set, unset, ensure, assign, exclude, pick, defaults, deepEqual }
 

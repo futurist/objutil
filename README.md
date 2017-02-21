@@ -170,6 +170,27 @@ set( { y:1 }, ['y', 'z'], 23 )
 Error('cannot set non-object path')
 ```
 
+### ensure( obj, pathArray, defaultValue )
+
+> **Like `set`, but only `set` when pathArray not exists**
+
+Set `pathArray` in `obj` to `defaultValue`, only when path not exists.
+
+Return `undefined` if path exists, and do nothing, else return `obj`
+
+`obj = ensure( {}, ['y', 'z'], 1 )`
+
+``` javascript
+//result is
+obj = { y: { z: 1 } }
+
+ret = ensure( obj, ['y', 'z'], 2 )
+// ret===undefined
+// obj==={ y: { z: 1 } }
+// obj unchanged
+
+```
+
 ### unset( obj, pathArray )
 
 > **Unset object value from pathArray. When there's non-object in the path, return undefined, or true/false as result**

@@ -48,6 +48,13 @@ function get (obj, path, errNotFound) {
   return errNotFound ? n : [n]
 }
 
+// ensure path exists
+function ensure (obj, path, defaultValue) {
+  path = getPath(path);
+  var arr = get(obj, path);
+  if(arr[1]) return set(obj, path, defaultValue)
+}
+
 function unset (obj, path) {
   path = getPath(path);
   var len = path.length;
@@ -160,6 +167,7 @@ exports.deepIt = deepIt;
 exports.get = get;
 exports.set = set;
 exports.unset = unset;
+exports.ensure = ensure;
 exports.invert = invert;
 exports.assign = assign;
 exports.extend = assign;

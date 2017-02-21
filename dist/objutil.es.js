@@ -46,6 +46,13 @@ function get (obj, path, errNotFound) {
   return errNotFound ? n : [n]
 }
 
+// ensure path exists
+function ensure (obj, path, defaultValue) {
+  path = getPath(path);
+  var arr = get(obj, path);
+  if(arr[1]) return set(obj, path, defaultValue)
+}
+
 function unset (obj, path) {
   path = getPath(path);
   var len = path.length;
@@ -150,4 +157,4 @@ function defaults (obj, option) {
   })
 }
 
-export { is, own, isIterable, isPrimitive, deepIt, get, set, unset, invert, assign, assign as extend, merge, exclude, pick, defaults, isEqual, visit };
+export { is, own, isIterable, isPrimitive, deepIt, get, set, unset, ensure, invert, assign, assign as extend, merge, exclude, pick, defaults, isEqual, visit };

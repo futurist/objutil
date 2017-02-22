@@ -117,7 +117,8 @@ function merge (target, arg) {
   arg = arguments
   for (var i = 1, len = arg.length; i < len; i++) {
     deepIt(target, arg[i], function (a, b, key, path) {
-      if (!(key in a) || isPrimitive(b[key])) a[key] = b[key]
+      if (isPrimitive(b[key])) a[key] = b[key]
+      else if(!(key in a)) a[key] = b[key].constructor()
     })
   }
   return target

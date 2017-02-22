@@ -113,7 +113,7 @@ describe('Test a/b with lib', function () {
     var o3 = { c: 3 }
     var obj = lib.merge({}, o1, o2, o3)
     expect(obj).deep.eql({ a: {b: 1, c: 2}, c: 3 })
-    expect(o1).deep.eql({ a: { b: 1, c: 2 }}) //c==2, since sub-obj ref
+    expect(o1).deep.eql({ a: { b: 1, c: 1 }})
     expect(o2).deep.eql({ a: {c: 2 }})
     expect(o3).deep.eql({ c: 3 })
   })

@@ -1,6 +1,9 @@
 (function (exports) {
 'use strict';
 
+/*jslint node: true */
+var ERR_NULL_TARGET = 'null target';
+
 // better type check
 var is = function (val, type) { return {}.toString.call(val) === '[object ' + type + ']' };
 var own = function (obj, key) { return {}.hasOwnProperty.call(obj, key) };
@@ -95,24 +98,30 @@ function invert (obj) {
   return newObj
 }
 
-function assign () {
-  var arg = arguments, last;
-  for (var i = arg.length; i--;) {
-    last = deepIt(arg[i], last, function (a, b, key, path) {
+function assign (target, arg) {
+  if (target == null) { // TypeError if undefined or null
+    throw new TypeError(ERR_NULL_TARGET)
+  }
+  arg = arguments;
+  for (var i = 1, len = arg.length; i < len; i++) {
+    deepIt(target, arg[i], function (a, b, key, path) {
       a[key] = b[key];
     });
   }
-  return last
+  return target
 }
 
-function merge () {
-  var arg = arguments, last;
-  for (var i = arg.length; i--;) {
-    last = deepIt(arg[i], last, function (a, b, key, path) {
+function merge (target, arg) {
+  if (target == null) { // TypeError if undefined or null
+    throw new TypeError(ERR_NULL_TARGET)
+  }
+  arg = arguments;
+  for (var i = 1, len = arg.length; i < len; i++) {
+    deepIt(target, arg[i], function (a, b, key, path) {
       if (!(key in a) || isPrimitive(b[key])) a[key] = b[key];
     });
   }
-  return last
+  return target
 }
 
 /** Usage: _exlucde(obj, {x:{y:2, z:3} } ) will delete x.y,x.z on obj

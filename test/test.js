@@ -67,6 +67,25 @@ describe('Test a/b with lib', function () {
     })
   })
 
+  it('@ assign target is null', function () {
+    try{
+      var obj = lib.assign(null, {a: 1})
+    }catch(e){
+      expect(e).is.an('error')
+    }
+  })
+
+  it('@ assign o1 o2 o3', function () {
+    var o1 = { a: 1, b: 1, c: 1 }
+    var o2 = { b: 2, c: 2 }
+    var o3 = { c: 3 }
+    var obj = lib.assign({}, o1, o2, o3)
+    expect(obj).deep.eql({ a: 1, b: 2, c: 3 })
+    expect(o1).deep.eql({ a: 1, b: 1, c: 1 })
+    expect(o2).deep.eql({ b: 2, c: 2 })
+    expect(o3).deep.eql({ c: 3 })
+  })
+
   it('@ assign b to a', function () {
     expect(lib.assign(a, b)).deep.equal(
       {
@@ -78,6 +97,25 @@ describe('Test a/b with lib', function () {
 	      }
       }
     )
+  })
+
+  it('@ merge null target', function () {
+    try{
+      var obj = lib.merge(null, {a: 1})
+    }catch(e){
+      expect(e).is.an('error')
+    }
+  })
+
+  it('@ merge o1 o2 o3', function () {
+    var o1 = { a: { b: 1, c: 1 }}
+    var o2 = { a: {c: 2 }}
+    var o3 = { c: 3 }
+    var obj = lib.merge({}, o1, o2, o3)
+    expect(obj).deep.eql({ a: {b: 1, c: 2}, c: 3 })
+    expect(o1).deep.eql({ a: { b: 1, c: 2 }}) //c==2, since sub-obj ref
+    expect(o2).deep.eql({ a: {c: 2 }})
+    expect(o3).deep.eql({ c: 3 })
   })
 
   it('@ merge b to a', function () {

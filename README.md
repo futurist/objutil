@@ -106,15 +106,18 @@ remove(a,b)
 
 ### visit( obj, fn )
 
-> **Visit each obj node (key:value pair), with fn(value, key, path, source)**
+> **Visit each obj node (key:value pair), with fn({val, key, path, col})**
 
-**value & key** is current value and key pair
+**val & key** is current value and key pair
 
 **path** is the current object path for the key,
+
+**col** is the current collection object
+
 `[]` indicate the root path,
 `['a', 'b']` is the path of node `x:1` in `{ a: { b: {x:1} } }`
 
-`visit( {a:2, b:{c:3}}, (val, key, path) => console.log(key, val, path) )`
+`visit( {a:2, b:{c:3}}, (v) => console.log(v.key, v.val, v.path) )`
 
 ```javascript
 // prints
@@ -296,11 +299,11 @@ If obj is `primitive types`, then always return `{}`
 
 > **return array of key path(dot notation) that passed predicate**
 
-predicate: `fn(val, key, path, collection) -> true/false`
+predicate: `fn({val, key, path, col}) -> true/false`
 
 ```javascript
-expect(lib.filter({a:1, b:{c:2, d:3}, e:4}, function(val, key, path, col) {
-  return path=='' && val % 2
+expect(lib.filter({a:1, b:{c:2, d:3}, e:4}, function(v) {
+  return v.path=='' && v.val % 2
 })).deep.eql(['a'])
 ```
 
@@ -313,7 +316,6 @@ expect(lib.filter({a:1, b:{c:2, d:3}, e:4}, function(val, key, path, col) {
 ```javascript
 //result=> true
 ```
-
 
 ### deepIt( a, b, callback )
 

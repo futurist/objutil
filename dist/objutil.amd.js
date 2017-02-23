@@ -85,7 +85,7 @@ function set (obj, path, value) {
 function visit (obj, fn) {
   return deepIt(obj, obj, function (a, b, key, path) {
     // value, key, collection, path
-    return fn(a[key], key, path, a)
+    return fn({val: a[key], key: key, path: path, col: a})
   })
 }
 
@@ -131,7 +131,7 @@ function defaults (target, arg) { // length==2
 function filter (obj, predicate) {
   var ret = [];
   deepIt(obj, obj, function(a, b, key, path) {
-    if(predicate(a[key], key, path, a)) ret.push(path.concat(key).join('.'));
+    if(predicate({val: a[key], key: key, path: path, col: a})) ret.push(path.concat(key).join('.'));
   });
   return ret
 }

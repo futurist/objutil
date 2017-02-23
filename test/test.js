@@ -189,12 +189,12 @@ describe('Test a/b with lib', function () {
   })
 
   it('@ filter', function () {
-    expect(lib.filter({a:1, b:{c:2, d:3}, e:4}, function(val, key, path, col) {
-      return path=='' && val % 2
+    expect(lib.filter({a:1, b:{c:2, d:3}, e:4}, function(v) {
+      return v.path=='' && v.val % 2
     })).deep.eql(['a'])
 
-    expect(lib.filter({a:1, b:{c:2, d:3}, e:4}, function(val, key, path, col) {
-      return val % 2 == 0
+    expect(lib.filter({a:1, b:{c:2, d:3}, e:4}, function(v) {
+      return v.val % 2 == 0
     })).deep.eql(['b.c', 'e'])
   })
 
@@ -392,9 +392,9 @@ describe('Test a/b with lib', function () {
     lib.visit(234, function () { called = true })
     expect(called).equal(false)
 
-    lib.visit(obj, function (value, key, path, source) {
-      expect(key).eql(keys.shift())
-      expect(path).deep.eql(paths.shift())
+    lib.visit(obj, function (v) {
+      expect(v.key).eql(keys.shift())
+      expect(v.path).deep.eql(paths.shift())
     })
 
     expect(keys.length).eql(0)

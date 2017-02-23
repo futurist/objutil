@@ -188,21 +188,28 @@ describe('Test a/b with lib', function () {
 		)
   })
 
-  it('@ exclude without newVal', function () {
-    var val = lib.exclude(a, excludeList)
+  it('@ remove', function () {
+    var val = lib.remove(a, excludeList)
     expect(val).is.deep.equal(
 			{'name': 'James', 'prop': {'sn': 1001, 'order': [{item: 'apple', number: 10}, {item: 'pear', number: 23}]}}
 		)
+    expect(lib.remove({a: 1, b: 2}, {
+      a: 0,
+      b: 1,
+      notExist: 1
+    })).is.deep.equal(
+			{a: 1}
+		)
   })
 
-  it('@ exclude with newVal', function () {
-    var val = lib.exclude(a, {
-      hoho: 234,
-	    age: null,
-	    prop: { addr: null, lulu: true }
+  it('@ remove with force', function () {
+    var val = lib.remove(a, {
+      age: 0,
+      prop: { addr: 1 },
+      notExist: 1
     }, true)
     expect(val).is.deep.equal(
-			{'name': 'James', 'age': null, 'prop': {'addr': null, 'sn': 1001, 'order': [{item: 'apple', number: 10}, {item: 'pear', number: 23}]}}
+			{'name': 'James', 'prop': {'sn': 1001, 'order': [{item: 'apple', number: 10}, {item: 'pear', number: 23}]}}
 		)
   })
 
@@ -328,6 +335,11 @@ describe('Test a/b with lib', function () {
 
     val = lib.pick('sdoif', {a: 1, c: {d: 1}})
     expect(val).to.deep.equal({})
+  })
+
+  it('@ pick with force', function () {
+    var val = lib.pick({a: 1, b:2}, {a: 0}, true)
+    expect(val).to.deep.equal({a: 1})
   })
 
   it('@ pick with exist obj path 3', function () {

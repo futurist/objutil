@@ -1,6 +1,6 @@
 # objutil
 
-Javascript Object util methods with deep traverse, with ES6 tree shaking methods: get/set/unset/remove object path, visit, assign(extend), merge, exclude, defaults, pick. Customize the APIs into one file.
+Javascript Object util methods with deep traverse, with ES6 tree shaking methods: get/set/unset/remove object path, visit, assign(extend), merge, remove, defaults, pick. Customize the APIs into one file.
 
 [![Build Status](https://travis-ci.org/futurist/objutil.svg?branch=master)](https://travis-ci.org/futurist/objutil)
 <a href='https://coveralls.io/github/futurist/objutil?branch=master'><img src='https://coveralls.io/repos/github/futurist/objutil/badge.svg?branch=master' alt='Coverage Status' /></a>
@@ -97,10 +97,9 @@ var b= {
 Use with objutil:
 
 ```javascript
-var merge = require('objutil').merge
-var exclude = require('objutil').exclude
+var {merge, remove} = require('objutil')
 merge(a,b)
-exclude(a,b)
+remove(a,b)
 ```
 
 ## API
@@ -224,7 +223,7 @@ Roughly equal to `lodash.assign` and `Object.assign`
 
 ### merge( obj, ...args )
 
-> **Deeply merge args properties into obj, from right to left order.**
+> **Deeply merge args properties into obj, from left to right order.**
 
 Roughly equal to `lodash.merge`
 
@@ -245,7 +244,7 @@ Roughly equal to `lodash.merge`
 
 ### defaults( obj, ...args )
 
-> **deeply merge args key/val into obj, only when it's not existing in obj**
+> **deeply merge args key/val into obj, left to right, only when it's not existing in obj**
 
 Roughly equal to `lodash.defaultsDeep` (**deeply lodash.defaults**)
 
@@ -259,11 +258,11 @@ Roughly equal to `lodash.defaultsDeep` (**deeply lodash.defaults**)
 }
 ```
 
-### exclude( obj, excludeObj, [newValue] )
+### remove( obj, removeObj, [newValue] )
 
-> **Deeply delete excludeObj(if key has a truthy value) from obj, optionally set to newValue if present**
+> **Deeply delete removeObj(if key has a truthy value) from obj, optionally set to newValue if present**
 
-`exclude( a, { y:{z:true} } )`
+`remove( a, { y:{z:true} } )`
 
 ```javascript
 //result=>
@@ -275,22 +274,9 @@ Roughly equal to `lodash.defaultsDeep` (**deeply lodash.defaults**)
 }
 ```
 
-`exclude( a, { y:{z:true} } , null)`
-
-```javascript
-//result=>
-{
-  x:1,
-  y:{
-    w:1,
-    z:null
-  }
-}
-```
-
 ### pick( obj, pickObject)
 
-> **Like exclude, but return the reversed result. Deeply keep from pickObject (if key has a truthy value) from obj**
+> **Like remove, but return the reversed new object(not mutate obj). Deeply keep from pickObject (if key has a truthy value) from obj**
 
 If obj is `primitive types`, then always return `{}`
 

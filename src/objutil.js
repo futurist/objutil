@@ -97,7 +97,6 @@ function invert (obj) {
   return newObj
 }
 
-
 function _assignHelper (target, arg, cb) {
   if (target == null) { // TypeError if undefined or null
     throw new TypeError(ERR_NULL_TARGET)
@@ -129,18 +128,25 @@ function defaults (target, arg) { // length==2
   })
 }
 
-
 /** Usage: _exlucde(obj, {x:{y:2, z:3} } ) will delete x.y,x.z on obj
  *  when isSet, will set value to a instead of delete
  */
 // _exclude( {a:1,b:{d:{ c:2} } }, { b:{d:{ c:1} } } )
-function exclude (x, y, isSet) {
+function remove (x, y, force) {
   return deepIt(x, y, function (a, b, key) {
-    if (isPrimitive(b[key])) {
-      isSet
-        ? (key in a ? a[key] = b[key] : '')
-      : b[key] && delete a[key]
-    }
+    if (isPrimitive(b[key]) && (force || b[key])) delete a[key]
+  })
+}
+
+function pick (obj, props, force) {
+  var o = {}
+  return deepIt(o, props, function (a, b, key, path) {
+    var d, c = get(obj, path.concat(key))
+    // c[1] > 0: not found from obj
+    if (!(force || b[key]) || c[1]) return
+    d = c[0]  // c[0] is the data
+    if (!isPrimitive(d)) a[key] = d.constructor()
+    if (isPrimitive(b[key])) a[key] = d
   })
 }
 
@@ -156,18 +162,6 @@ function isEqual (x, y, isStrict) {
   return equal
 }
 
-function pick (obj, props) {
-  var o = {}
-  return deepIt(o, props, function (a, b, key, path) {
-    var d, c = get(obj, path.concat(key))
-    // c[1] > 0: not found from obj
-    if (!b[key] || c[1]) return
-    d = c[0]  // c[0] is the data
-    if (!isPrimitive(d)) a[key] = d.constructor()
-    if (isPrimitive(b[key])) a[key] = d
-  })
-}
-
 // below line will generate from rollup dynamically, see 'rollup.config.js' file
-// export { is, own, isIterable, isPrimitive, deepIt, get, set, unset, ensure, assign, exclude, pick, defaults, deepEqual }
+// export { is, own, isIterable, isPrimitive, deepIt, get, set, unset, ensure, assign, remove, pick, defaults, deepEqual }
 

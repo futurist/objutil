@@ -188,6 +188,16 @@ describe('Test a/b with lib', function () {
 		)
   })
 
+  it('@ filter', function () {
+    expect(lib.filter({a:1, b:{c:2, d:3}, e:4}, function(val, key, path, col) {
+      return path=='' && val % 2
+    })).deep.eql(['a'])
+
+    expect(lib.filter({a:1, b:{c:2, d:3}, e:4}, function(val, key, path, col) {
+      return val % 2 == 0
+    })).deep.eql(['b.c', 'e'])
+  })
+
   it('@ remove', function () {
     var val = lib.remove(a, excludeList)
     expect(val).is.deep.equal(

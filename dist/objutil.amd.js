@@ -128,6 +128,14 @@ function defaults (target, arg) { // length==2
   })
 }
 
+function filter (obj, predicate) {
+  var ret = [];
+  deepIt(obj, obj, function(a, b, key, path) {
+    if(predicate(a[key], key, path, a)) ret.push(path.concat(key).join('.'));
+  });
+  return ret
+}
+
 /** Usage: _exlucde(obj, {x:{y:2, z:3} } ) will delete x.y,x.z on obj
  *  when isSet, will set value to a instead of delete
  */
@@ -180,5 +188,6 @@ exports.pick = pick;
 exports.defaults = defaults;
 exports.isEqual = isEqual;
 exports.visit = visit;
+exports.filter = filter;
 
 });

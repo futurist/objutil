@@ -15,15 +15,17 @@ function isPrimitive (val) {
   return !/obj|func/.test(typeof val) || !val
 }
 
-function deepIt (a, b, callback, path) {
+function deepIt (a, b, callback, path, _cache) {
+  _cache = _cache || []
   path = path || []
   if (isPrimitive(b)) return a
+  _cache.push(b)
   for (var key in b) {
     if (!own(b, key)) continue
     // return false stop the iteration
     if (callback(a, b, key, path) === false) break
-    if (isIterable(b[key]) && isIterable(a[key])) {
-      deepIt(a[key], b[key], callback, path.concat(key))
+    if (isIterable(b[key]) && isIterable(a[key]) && _cache.indexOf(b[key]) < 0) {
+      deepIt(a[key], b[key], callback, path.concat(key), _cache)
     }
   }
   return a

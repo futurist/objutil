@@ -188,6 +188,20 @@ describe('Test a/b with lib', function () {
 		)
   })
 
+  it('@ filter recursive obj', function () {
+    var d = {}
+    var c = {root: d, a: 1}
+    d.c = c
+    // it's Circular object, c.root->d, d.c->c, ...
+    count=0
+    expect(lib.filter(c, function(v) {
+      count++
+      // console.log(count, v)
+      return v.val == 1
+    }))
+    expect(count).eql(3)
+  })
+
   it('@ filter', function () {
     expect(lib.filter({a:1, b:{c:2, d:3}, e:4}, function(v) {
       return v.path=='' && v.val % 2

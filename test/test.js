@@ -75,6 +75,36 @@ describe('Test a/b with lib', function () {
     }
   })
 
+  it('@ assign dest is null', function () {
+    var o1 = {a: 1}
+    var o2 = {a: undefined, b: undefined}
+    var obj = lib.assign({}, o1, o2)
+    expect(obj).deep.eql({a: undefined, b:undefined})
+    expect(lib.assign({}, { a: 'a'  }, { a: undefined })).deep.eql({ a: undefined })
+    expect(lib.assign({}, { a: 'a'  }, { a: null })).deep.eql({ a: null })
+    expect(lib.assign({}, {a: ['a']}, {a: ['bb', ['dd']]})).deep.eql({ 'a': [ 'bb', ['dd'] ] })
+  })
+
+  it('@ merge dest is null', function () {
+    var o1 = {a: 1}
+    var o2 = {a: undefined, b: undefined}
+    var obj = lib.merge({}, o1, o2)
+    expect(obj).deep.eql({a: 1, b:undefined})
+    expect(lib.merge({}, { a: 'a'  }, { a: undefined })).deep.eql({ a: 'a' })
+    expect(lib.merge({}, { a: 'a'  }, { a: null })).deep.eql({ a: null })
+    expect(lib.merge({}, {a: ['a']}, {a: ['bb', ['dd']]})).deep.eql({ 'a': [ 'bb', ['dd'] ] })
+  })
+
+  it('@ defaults dest is null', function () {
+    var o1 = {a: 1}
+    var o2 = {a: undefined, b: undefined}
+    var obj = lib.defaults({}, o1, o2)
+    expect(obj).deep.eql({a: 1, b:undefined})
+    expect(lib.defaults({}, { a: 'a'  }, { a: undefined })).deep.eql({ a: 'a' })
+    expect(lib.defaults({}, { a: 'a'  }, { a: null })).deep.eql({ a: 'a' })
+    expect(lib.defaults({}, {a: {a: 'a'}}, {a: {b: 'bb'}})).deep.eql({ 'a': { 'a': 'a', 'b': 'bb' }})
+  })
+
   it('@ assign o1 o2 o3', function () {
     var o1 = { a: 1, b: 1, c: 1 }
     var o2 = { b: 2, c: 2 }

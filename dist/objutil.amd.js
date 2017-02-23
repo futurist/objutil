@@ -97,32 +97,38 @@ function invert (obj) {
   return newObj
 }
 
-function assign (target, arg) {
+
+function _assignHelper (target, arg, cb) {
   if (target == null) { // TypeError if undefined or null
     throw new TypeError(ERR_NULL_TARGET)
   }
-  arg = arguments;
   for (var i = 1, len = arg.length; i < len; i++) {
-    deepIt(target, arg[i], function (a, b, key, path) {
-      a[key] = b[key];
-    });
+    deepIt(target, arg[i], cb);
   }
   return target
 }
 
-function merge (target, arg) {
-  if (target == null) { // TypeError if undefined or null
-    throw new TypeError(ERR_NULL_TARGET)
-  }
-  arg = arguments;
-  for (var i = 1, len = arg.length; i < len; i++) {
-    deepIt(target, arg[i], function (a, b, key, path) {
-      if (isPrimitive(b[key])) a[key] = b[key];
-      else if(!(key in a)) a[key] = b[key].constructor();
-    });
-  }
-  return target
+function assign (target, arg) { // length==2
+  return _assignHelper(target, arguments, function (a, b, key, path) {
+    a[key] = b[key];
+  })
 }
+
+function merge(target, arg) { // length==2
+  return _assignHelper(target, arguments, function (a, b, key, path) {
+    var bval = b[key];
+    if (bval !== undefined && isPrimitive(bval)) a[key] = bval;
+    else if (!(key in a)) a[key] = bval ? bval.constructor() : bval;
+  })
+}
+
+function defaults (target, arg) { // length==2
+  target = target || {};
+  return _assignHelper(target, arguments, function (a, b, key, path) {
+    if (!(key in a)) a[key] = b[key];
+  })
+}
+
 
 /** Usage: _exlucde(obj, {x:{y:2, z:3} } ) will delete x.y,x.z on obj
  *  when isSet, will set value to a instead of delete
@@ -159,13 +165,6 @@ function pick (obj, props) {
     d = c[0];  // c[0] is the data
     if (!isPrimitive(d)) a[key] = d.constructor();
     if (isPrimitive(b[key])) a[key] = d;
-  })
-}
-
-function defaults (obj, option) {
-  obj = obj || {};
-  return deepIt(obj, option, function (a, b, key) {
-    if (!(key in a)) a[key] = b[key];
   })
 }
 

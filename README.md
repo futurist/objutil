@@ -258,9 +258,9 @@ Roughly equal to `lodash.defaultsDeep` (**deeply lodash.defaults**)
 }
 ```
 
-### remove( obj, removeObj, [newValue] )
+### remove( obj, removeObj, [force] )
 
-> **Deeply delete removeObj(if key has a truthy value) from obj, optionally set to newValue if present**
+> **Deeply delete removeObj(if force or key has a truthy value) from obj, optionally set to newValue if present**
 
 `remove( a, { y:{z:true} } )`
 
@@ -274,9 +274,9 @@ Roughly equal to `lodash.defaultsDeep` (**deeply lodash.defaults**)
 }
 ```
 
-### pick( obj, pickObject)
+### pick( obj, pickObject, force)
 
-> **Like remove, but return the reversed new object(not mutate obj). Deeply keep from pickObject (if key has a truthy value) from obj**
+> **Like remove, but return the reversed new object(not mutate obj). Deeply keep from pickObject (if force or key has a truthy value) from obj**
 
 If obj is `primitive types`, then always return `{}`
 

@@ -1,6 +1,6 @@
 # objutil
 
-Javascript Object util methods with deep traverse, with ES6 tree shaking methods: get/set/unset/remove object path, visit, assign(extend), merge, exclude, default, pick. Customize the APIs into one file.
+Javascript Object util methods with deep traverse, with ES6 tree shaking methods: get/set/unset/remove object path, visit, assign(extend), merge, exclude, defaults, pick. Customize the APIs into one file.
 
 [![Build Status](https://travis-ci.org/futurist/objutil.svg?branch=master)](https://travis-ci.org/futurist/objutil)
 <a href='https://coveralls.io/github/futurist/objutil?branch=master'><img src='https://coveralls.io/repos/github/futurist/objutil/badge.svg?branch=master' alt='Coverage Status' /></a>
@@ -204,7 +204,9 @@ true
 
 ### assign( obj, ...args )
 
-> **Deeply assign args properties into obj, from right to left order.**
+> **Shallow assign args properties into obj, from left to right order.**
+
+Roughly equal to `lodash.assign` and `Object.assign`
 
 `assign( a, b, {w:3} )`
 
@@ -224,6 +226,8 @@ true
 
 > **Deeply merge args properties into obj, from right to left order.**
 
+Roughly equal to `lodash.merge`
+
 `merge( a, b, {y:{v:3}} )`
 
 ```javascript
@@ -236,6 +240,22 @@ true
     z:10,
     u:'name'
   }
+}
+```
+
+### defaults( obj, ...args )
+
+> **deeply merge args key/val into obj, only when it's not existing in obj**
+
+Roughly equal to `lodash.defaultsDeep` (**deeply lodash.defaults**)
+
+`defaults( {}, {a:1}, {a:2, b:5 } )`
+
+```javascript
+//result=>
+{
+  a:1,
+  b:5
 }
 ```
 
@@ -283,21 +303,6 @@ If obj is `primitive types`, then always return `{}`
   y:{
     z:2
   }
-}
-```
-
-
-### defaults( obj, defaultObj )
-
-> **deeply merge defaultObj key/val into obj, only when it's not existing in obj**
-
-`defaults( {a:1}, {a:2, b:5 } )`
-
-```javascript
-//result=>
-{
-  a:1,
-  b:5
 }
 ```
 

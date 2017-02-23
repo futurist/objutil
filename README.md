@@ -1,6 +1,6 @@
 # objutil
 
-Javascript Object util methods with deep traverse, with ES6 tree shaking methods: get/set/unset/remove object path, visit, assign(extend), merge, remove, defaults, pick. Customize the APIs into one file.
+Javascript Object util methods with deep traverse, with ES6 tree shaking methods: get/set/unset/remove object path, visit, assign(extend), merge, remove, defaults, pick, filter, isEqual. Customize the APIs into one file.
 
 [![Build Status](https://travis-ci.org/futurist/objutil.svg?branch=master)](https://travis-ci.org/futurist/objutil)
 <a href='https://coveralls.io/github/futurist/objutil?branch=master'><img src='https://coveralls.io/repos/github/futurist/objutil/badge.svg?branch=master' alt='Coverage Status' /></a>
@@ -292,11 +292,23 @@ If obj is `primitive types`, then always return `{}`
 }
 ```
 
-### deepEqual( objA, objB )
+### filter( obj, predicate)
+
+> **return array of key path(dot notation) that passed predicate**
+
+predicate: `fn(val, key, path, collection) -> true/false`
+
+```javascript
+expect(lib.filter({a:1, b:{c:2, d:3}, e:4}, function(val, key, path, col) {
+  return path=='' && val % 2
+})).deep.eql(['a'])
+```
+
+### isEqual( objA, objB )
 
 > **deeply compare objA and objB for equality**
 
-`deepEqual( {a:1, b:2}, {a:1, b:2 } )`
+`isEqual( {a:1, b:2}, {a:1, b:2 } )`
 
 ```javascript
 //result=> true

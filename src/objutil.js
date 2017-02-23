@@ -157,7 +157,7 @@ function pick (obj, props) {
     // c[1] > 0: not found from obj
     if (!b[key] || c[1]) return
     d = c[0]  // c[0] is the data
-    if (!isPrimitive(d)) a[key] = is(d, 'Array') ? [] : {}
+    if (!isPrimitive(d)) a[key] = d.constructor()
     if (isPrimitive(b[key])) a[key] = d
   })
 }

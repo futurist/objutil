@@ -168,11 +168,14 @@ function isEqual (x, y, isStrict) {
   var equal = true;
   // if b===null, then don't iterate, so here compare first
   if (isPrimitive(x) || isPrimitive(y)) return isStrict ? x === y : x == y
-  deepIt(x, y, function (a, b, key) {
-    if ((isPrimitive(a[key]) || isPrimitive(b[key])) && (isStrict ? b[key] !== a[key] : b[key] != a[key])) {
+  var compare = function (a, b, key) {
+    if ((isPrimitive(a[key]) || isPrimitive(b[key]))
+      && (isStrict ? b[key] !== a[key] : b[key] != a[key])) {
       return (equal = false)
     }
-  });
+  };
+  deepIt(x, y, compare);
+  if(equal) deepIt(y, x, compare);
   return equal
 }
 

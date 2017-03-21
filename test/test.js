@@ -430,5 +430,10 @@ describe('Test a/b with lib', function () {
     expect(lib.isEqual(null, {a: 1, b: {d: 3}}, true)).not.ok
     expect(lib.isEqual({a: 1, b: {d: 3}}, null, true)).not.ok
     expect(lib.isEqual(null, null, true)).ok
+
+    // keys different
+    expect(lib.isEqual({a: 11, b: 22}, {})).not.ok
+    expect(lib.isEqual({}, {a: 11, b: 22})).not.ok
+
   })
 })

@@ -12,21 +12,21 @@ beforeEach(function () {
     name: 'James',
     age: 22,
     prop: {
-		  addr: 'ABC',
-		  sn: 1001,
-		  order: [
-        {item: 'apple', number: 10},
-        {item: 'pear', number: 23}
+      addr: 'ABC',
+      sn: 1001,
+      order: [
+        { item: 'apple', number: 10 },
+        { item: 'pear', number: 23 }
       ]
     }
   })
 
   b = newObj({
-	  age: 10,
-	  prop: {
-		  addr: 1,
-		  newAddr: 'xyz'
-	  }
+    age: 10,
+    prop: {
+      addr: 1,
+      newAddr: 'xyz'
+    }
   })
 
   c = newObj({
@@ -49,11 +49,11 @@ describe('Test a/b with lib', function () {
         name: 'James',
         age: 30,
         prop: {
-		      addr: 'ABC',
-		      sn: 1001,
-		      order: [
-            {item: 'apple', number: 10},
-            {item: 'pear', number: 23}
+          addr: 'ABC',
+          sn: 1001,
+          order: [
+            { item: 'apple', number: 10 },
+            { item: 'pear', number: 23 }
           ]
         }
       }
@@ -61,48 +61,48 @@ describe('Test a/b with lib', function () {
   })
 
   it('@ invert obj', function () {
-    expect(lib.invert({a: 1, b: {c: 2}, d: 'xyz'})).deep.equal({
+    expect(lib.invert({ a: 1, b: { c: 2 }, d: 'xyz' })).deep.equal({
       1: 'a',
       xyz: 'd'
     })
   })
 
   it('@ assign target is null', function () {
-    try{
-      var obj = lib.assign(null, {a: 1})
-    }catch(e){
+    try {
+      var obj = lib.assign(null, { a: 1 })
+    } catch (e) {
       expect(e).is.an('error')
     }
   })
 
   it('@ assign dest is null', function () {
-    var o1 = {a: 1}
-    var o2 = {a: undefined, b: undefined}
+    var o1 = { a: 1 }
+    var o2 = { a: undefined, b: undefined }
     var obj = lib.assign({}, o1, o2)
-    expect(obj).deep.eql({a: undefined, b:undefined})
-    expect(lib.assign({}, { a: 'a'  }, { a: undefined })).deep.eql({ a: undefined })
-    expect(lib.assign({}, { a: 'a'  }, { a: null })).deep.eql({ a: null })
-    expect(lib.assign({}, {a: ['a']}, {a: ['bb', ['dd']]})).deep.eql({ 'a': [ 'bb', ['dd'] ] })
+    expect(obj).deep.eql({ a: undefined, b: undefined })
+    expect(lib.assign({}, { a: 'a' }, { a: undefined })).deep.eql({ a: undefined })
+    expect(lib.assign({}, { a: 'a' }, { a: null })).deep.eql({ a: null })
+    expect(lib.assign({}, { a: ['a'] }, { a: ['bb', ['dd']] })).deep.eql({ 'a': ['bb', ['dd']] })
   })
 
   it('@ merge dest is null', function () {
-    var o1 = {a: 1}
-    var o2 = {a: undefined, b: undefined}
+    var o1 = { a: 1 }
+    var o2 = { a: undefined, b: undefined }
     var obj = lib.merge({}, o1, o2)
-    expect(obj).deep.eql({a: 1, b:undefined})
-    expect(lib.merge({}, { a: 'a'  }, { a: undefined })).deep.eql({ a: 'a' })
-    expect(lib.merge({}, { a: 'a'  }, { a: null })).deep.eql({ a: null })
-    expect(lib.merge({}, {a: ['a']}, {a: ['bb', ['dd']]})).deep.eql({ 'a': [ 'bb', ['dd'] ] })
+    expect(obj).deep.eql({ a: 1, b: undefined })
+    expect(lib.merge({}, { a: 'a' }, { a: undefined })).deep.eql({ a: 'a' })
+    expect(lib.merge({}, { a: 'a' }, { a: null })).deep.eql({ a: null })
+    expect(lib.merge({}, { a: ['a'] }, { a: ['bb', ['dd']] })).deep.eql({ 'a': ['bb', ['dd']] })
   })
 
   it('@ defaults dest is null', function () {
-    var o1 = {a: 1}
-    var o2 = {a: undefined, b: undefined}
+    var o1 = { a: 1 }
+    var o2 = { a: undefined, b: undefined }
     var obj = lib.defaults({}, o1, o2)
-    expect(obj).deep.eql({a: 1, b:undefined})
-    expect(lib.defaults({}, { a: 'a'  }, { a: undefined })).deep.eql({ a: 'a' })
-    expect(lib.defaults({}, { a: 'a'  }, { a: null })).deep.eql({ a: 'a' })
-    expect(lib.defaults({}, {a: {a: 'a'}}, {a: {b: 'bb'}})).deep.eql({ 'a': { 'a': 'a', 'b': 'bb' }})
+    expect(obj).deep.eql({ a: 1, b: undefined })
+    expect(lib.defaults({}, { a: 'a' }, { a: undefined })).deep.eql({ a: 'a' })
+    expect(lib.defaults({}, { a: 'a' }, { a: null })).deep.eql({ a: 'a' })
+    expect(lib.defaults({}, { a: { a: 'a' } }, { a: { b: 'bb' } })).deep.eql({ 'a': { 'a': 'a', 'b': 'bb' } })
   })
 
   it('@ assign o1 o2 o3', function () {
@@ -121,30 +121,30 @@ describe('Test a/b with lib', function () {
       {
         'name': 'James',
         'age': 10,
-	      prop: {
-		      addr: 1,
-		      newAddr: 'xyz'
-	      }
+        prop: {
+          addr: 1,
+          newAddr: 'xyz'
+        }
       }
     )
   })
 
   it('@ merge null target', function () {
-    try{
-      var obj = lib.merge(null, {a: 1})
-    }catch(e){
+    try {
+      var obj = lib.merge(null, { a: 1 })
+    } catch (e) {
       expect(e).is.an('error')
     }
   })
 
   it('@ merge o1 o2 o3', function () {
-    var o1 = { a: { b: 1, c: 1 }}
-    var o2 = { a: {c: 2 }}
+    var o1 = { a: { b: 1, c: 1 } }
+    var o2 = { a: { c: 2 } }
     var o3 = { c: 3 }
     var obj = lib.merge({}, o1, o2, o3)
-    expect(obj).deep.eql({ a: {b: 1, c: 2}, c: 3 })
-    expect(o1).deep.eql({ a: { b: 1, c: 1 }})
-    expect(o2).deep.eql({ a: {c: 2 }})
+    expect(obj).deep.eql({ a: { b: 1, c: 2 }, c: 3 })
+    expect(o1).deep.eql({ a: { b: 1, c: 1 } })
+    expect(o2).deep.eql({ a: { c: 2 } })
     expect(o3).deep.eql({ c: 3 })
   })
 
@@ -154,20 +154,20 @@ describe('Test a/b with lib', function () {
         'name': 'James',
         'age': 10,
         'prop': {
-				  'addr': 1,
-				  'sn': 1001,
-				  'order': [
-            {item: 'apple', number: 10},
-            {item: 'pear', number: 23}
-				  ],
-				  'newAddr': 'xyz'
+          'addr': 1,
+          'sn': 1001,
+          'order': [
+            { item: 'apple', number: 10 },
+            { item: 'pear', number: 23 }
+          ],
+          'newAddr': 'xyz'
         }
       }
-		)
+    )
   })
 
   it('merge with non-key', function () {
-    expect(lib.merge({}, {plugins: {value: 'asdf'}})).deep.equal({plugins: {value: 'asdf'}})
+    expect(lib.merge({}, { plugins: { value: 'asdf' } })).deep.equal({ plugins: { value: 'asdf' } })
   })
 
   it('@ merge with multiple args', function () {
@@ -176,25 +176,25 @@ describe('Test a/b with lib', function () {
         'name': 'James',
         'age': 33,
         'prop': {
-				  'addr': 1,
-				  'sn': 1001,
-				  'order': [
-            {item: 'apple', number: 10},
-            {item: 'pear', number: 23}
+          'addr': 1,
+          'sn': 1001,
+          'order': [
+            { item: 'apple', number: 10 },
+            { item: 'pear', number: 23 }
           ],
-				  'newAddr': 'xyz'
+          'newAddr': 'xyz'
         }
       }
-		)
+    )
   })
 
   it('@ filter recursive obj', function () {
     var d = {}
-    var c = {root: d, a: 1}
+    var c = { root: d, a: 1 }
     d.c = c
     // it's Circular object, c.root->d, d.c->c, ...
-    count=0
-    expect(lib.filter(c, function(v) {
+    count = 0
+    expect(lib.filter(c, function (v) {
       count++
       // console.log(count, v)
       return v.val == 1
@@ -203,11 +203,11 @@ describe('Test a/b with lib', function () {
   })
 
   it('@ filter', function () {
-    expect(lib.filter({a:1, b:{c:2, d:3}, e:4}, function(v) {
-      return v.path=='' && v.val % 2
+    expect(lib.filter({ a: 1, b: { c: 2, d: 3 }, e: 4 }, function (v) {
+      return v.path == '' && v.val % 2
     })).deep.eql(['a'])
 
-    expect(lib.filter({a:1, b:{c:2, d:3}, e:4}, function(v) {
+    expect(lib.filter({ a: 1, b: { c: 2, d: 3 }, e: 4 }, function (v) {
       return v.val % 2 == 0
     })).deep.eql(['b.c', 'e'])
   })
@@ -215,15 +215,15 @@ describe('Test a/b with lib', function () {
   it('@ remove', function () {
     var val = lib.remove(a, excludeList)
     expect(val).is.deep.equal(
-			{'name': 'James', 'prop': {'sn': 1001, 'order': [{item: 'apple', number: 10}, {item: 'pear', number: 23}]}}
-		)
-    expect(lib.remove({a: 1, b: 2}, {
+      { 'name': 'James', 'prop': { 'sn': 1001, 'order': [{ item: 'apple', number: 10 }, { item: 'pear', number: 23 }] } }
+    )
+    expect(lib.remove({ a: 1, b: 2 }, {
       a: 0,
       b: 1,
       notExist: 1
     })).is.deep.equal(
-			{a: 1}
-		)
+      { a: 1 }
+      )
   })
 
   it('@ remove with force', function () {
@@ -233,8 +233,8 @@ describe('Test a/b with lib', function () {
       notExist: 1
     }, true)
     expect(val).is.deep.equal(
-			{'name': 'James', 'prop': {'sn': 1001, 'order': [{item: 'apple', number: 10}, {item: 'pear', number: 23}]}}
-		)
+      { 'name': 'James', 'prop': { 'sn': 1001, 'order': [{ item: 'apple', number: 10 }, { item: 'pear', number: 23 }] } }
+    )
   })
 
   it('@ get with exist path', function () {
@@ -248,52 +248,52 @@ describe('Test a/b with lib', function () {
   })
 
   it('@ get with primitive path', function () {
-    var val = lib.get({prop: 1}, 'prop/order/2/item'.split('/'))
+    var val = lib.get({ prop: 1 }, 'prop/order/2/item'.split('/'))
     expect(val).to.be.deep.equal([undefined, 1])
   })
 
   it('@ get return Error on not found', function () {
-    var val = lib.get({prop: 1}, 'prop/order/2/item'.split('/'), true)
+    var val = lib.get({ prop: 1 }, 'prop/order/2/item'.split('/'), true)
     expect(val).to.be.an('error')
     expect(val.message).to.equal('NotFound')
   })
 
   it('@ get return non-array value when set 3rd arg', function () {
-    var val = lib.get({prop: {value: 1}}, 'prop/value'.split('/'), true)
+    var val = lib.get({ prop: { value: 1 } }, 'prop/value'.split('/'), true)
     expect(val).to.eql(1)
   })
 
   it('@ get using string as path (dot path)', function () {
-    var val = lib.get({prop: {value: 1}}, 'prop.value', true)
+    var val = lib.get({ prop: { value: 1 } }, 'prop.value', true)
     expect(val).to.eql(1)
   })
 
   it('@ ensure', function () {
     var obj = {}
     var val = lib.ensure(obj, 'prop.value', 1)
-    expect(val).to.deep.eql({prop: {value: 1}})
+    expect(val).to.deep.eql({ prop: { value: 1 } })
     val = lib.ensure(val, 'prop.value', 2)
     expect(val).eql(undefined)
-    expect(obj).to.deep.eql({prop: {value: 1}})
+    expect(obj).to.deep.eql({ prop: { value: 1 } })
   })
 
   it('@ set using string (dot path)', function () {
     var val = lib.set({}, 'prop.value', 1)
-    expect(val).to.deep.eql({prop: {value: 1}})
+    expect(val).to.deep.eql({ prop: { value: 1 } })
   })
 
   it('@ set using array path', function () {
     var val = lib.set({}, 'prop.value'.split('.'), 1)
-    expect(val).to.deep.eql({prop: {value: 1}})
+    expect(val).to.deep.eql({ prop: { value: 1 } })
   })
 
   it('@ set with existing path', function () {
-    var val = lib.set({prop: {}}, 'prop.value.key'.split('.'), 1)
-    expect(val).to.deep.eql({prop: {value: {key: 1}}})
+    var val = lib.set({ prop: {} }, 'prop.value.key'.split('.'), 1)
+    expect(val).to.deep.eql({ prop: { value: { key: 1 } } })
   })
 
   it('@ set with primitive path', function () {
-    var val = lib.set({prop: 2}, 'prop.value.key'.split('.'), 1)
+    var val = lib.set({ prop: 2 }, 'prop.value.key'.split('.'), 1)
     expect(val).to.be.an('error')
   })
 
@@ -308,10 +308,10 @@ describe('Test a/b with lib', function () {
   })
 
   it('@ unset with normal obj', function () {
-    var obj = {prop: {value: 1, abc:2}}
+    var obj = { prop: { value: 1, abc: 2 } }
     var val = lib.unset(obj, 'prop.value')
     expect(val).to.eql(true)
-    expect(obj).to.deep.eql({prop:{abc: 2}})
+    expect(obj).to.deep.eql({ prop: { abc: 2 } })
 
     val = lib.unset(obj, 'prop')
     expect(val).to.eql(true)
@@ -320,76 +320,76 @@ describe('Test a/b with lib', function () {
   })
 
   it('@ unset with non-exists key', function () {
-    var val = lib.unset({prop: {value: 1}}, 'prop.value.key')
+    var val = lib.unset({ prop: { value: 1 } }, 'prop.value.key')
     expect(val).to.eql(false)
   })
 
   it('@ unset with delete false', function () {
     var obj = {}
-    Object.defineProperty(obj, 'value', {value: 1})
+    Object.defineProperty(obj, 'value', { value: 1 })
     try {
-		  var val = lib.unset(obj, 'value')
+      var val = lib.unset(obj, 'value')
     } catch (e) {
-		  expect(e).to.be.an('error')
+      expect(e).to.be.an('error')
     }
   })
 
   it('@ pick with exist obj path 1', function () {
-    var val = lib.pick({a: 3, b: {c: 2}}, {prop: {order: [0, 1]}})
+    var val = lib.pick({ a: 3, b: { c: 2 } }, { prop: { order: [0, 1] } })
     expect(val).to.deep.equal(
       {}
     )
   })
 
   it('@ pick with exist obj path 2', function () {
-    var val = lib.pick(a, {prop: {order: [0, 1]}})
+    var val = lib.pick(a, { prop: { order: [0, 1] } })
     expect(JSON.stringify(val)).to.deep.equal(
       JSON.stringify({
-        'prop': {'order': [null, {'item': 'pear', 'number': 23}]}
+        'prop': { 'order': [null, { 'item': 'pear', 'number': 23 }] }
       })
     )
   })
 
   it('@ pick with null', function () {
-    var val = lib.pick(null, {a: 1, c: {d: 1}})
+    var val = lib.pick(null, { a: 1, c: { d: 1 } })
     expect(val).to.deep.equal({})
 
-    val = lib.pick(3234, {a: 1, c: {d: 1}})
+    val = lib.pick(3234, { a: 1, c: { d: 1 } })
     expect(val).to.deep.equal({})
 
-    val = lib.pick('sdoif', {a: 1, c: {d: 1}})
+    val = lib.pick('sdoif', { a: 1, c: { d: 1 } })
     expect(val).to.deep.equal({})
   })
 
   it('@ pick with force', function () {
-    var val = lib.pick({a: 1, b:2}, {a: 0}, true)
-    expect(val).to.deep.equal({a: 1})
+    var val = lib.pick({ a: 1, b: 2 }, { a: 0 }, true)
+    expect(val).to.deep.equal({ a: 1 })
   })
 
   it('@ pick with exist obj path 3', function () {
-    var val = lib.pick({a: 10, b: 2, c: {d: 3}}, {a: 1, c: {d: 1}})
+    var val = lib.pick({ a: 10, b: 2, c: { d: 3 } }, { a: 1, c: { d: 1 } })
     expect(val).to.deep.equal(
       {
         a: 10,
-        c: {d: 3}
+        c: { d: 3 }
       }
     )
   })
 
   it('@ defaults with object', function () {
-    var val = lib.defaults({prop: {a: 1}, b: 2}, {prop: {a: 10, order: [0, 1]}, b: 20, c: 30})
+    var val = lib.defaults({ prop: { a: 1 }, b: 2 }, { prop: { a: 10, order: [0, 1] }, b: 20, c: 30 })
     expect(val).to.deep.equal(
-      {'prop': {'a': 1, 'order': [0, 1]}, 'b': 2, 'c': 30}
+      { 'prop': { 'a': 1, 'order': [0, 1] }, 'b': 2, 'c': 30 }
     )
-    val = lib.defaults(undefined, {prop: {a: 10, order: [0, 1]}, b: 20, c: 30})
+    val = lib.defaults(undefined, { prop: { a: 10, order: [0, 1] }, b: 20, c: 30 })
     expect(val).to.deep.equal(
-      {prop: {a: 10, order: [0, 1]}, b: 20, c: 30}
+      { prop: { a: 10, order: [0, 1] }, b: 20, c: 30 }
     )
   })
 
   it('@ visit', function () {
     var called = false
-    var obj = {a: 1, b: {d: 3}}
+    var obj = { a: 1, b: { d: 3 } }
     var keys = ['a', 'b', 'd']
     var paths = [
       [],
@@ -416,24 +416,66 @@ describe('Test a/b with lib', function () {
 
   it('@ isEqual', function () {
     // not strict equal
-    expect(lib.isEqual({a: 1, b: 2}, {a: 1, b: 2})).ok
-    expect(lib.isEqual({a: 1, b: 2}, {a: 1, b: '2'})).ok
-    expect(lib.isEqual({a: 1, b: 2}, {a: 2, b: 2})).not.ok
-    expect(lib.isEqual({a: 1, b: {d: 3}}, {a: 1, b: {d: 3}})).ok
-    expect(lib.isEqual(null, {a: 1, b: {d: 3}})).not.ok
-    expect(lib.isEqual({a: 1, b: {d: 3}}, null)).not.ok
+    expect(lib.isEqual({ a: 1, b: 2 }, { a: 1, b: 2 })).ok
+    expect(lib.isEqual({ a: 1, b: 2 }, { a: 1, b: '2' })).ok
+    expect(lib.isEqual({ a: 1, b: 2 }, { a: 2, b: 2 })).not.ok
+    expect(lib.isEqual({ a: 1, b: { d: 3 } }, { a: 1, b: { d: 3 } })).ok
+    expect(lib.isEqual(null, { a: 1, b: { d: 3 } })).not.ok
+    expect(lib.isEqual({ a: 1, b: { d: 3 } }, null)).not.ok
     expect(lib.isEqual(null, null)).ok
 
     // isStrict
-    expect(lib.isEqual({a: 1, b: {d: '3'}}, {a: 1, b: {d: 3}}, true)).not.ok
-    expect(lib.isEqual({a: 1, b: {d: 3}}, {a: 1, b: {d: 3}}, true)).ok
-    expect(lib.isEqual(null, {a: 1, b: {d: 3}}, true)).not.ok
-    expect(lib.isEqual({a: 1, b: {d: 3}}, null, true)).not.ok
+    expect(lib.isEqual({ a: 1, b: { d: '3' } }, { a: 1, b: { d: 3 } }, true)).not.ok
+    expect(lib.isEqual({ a: 1, b: { d: 3 } }, { a: 1, b: { d: 3 } }, true)).ok
+    expect(lib.isEqual(null, { a: 1, b: { d: 3 } }, true)).not.ok
+    expect(lib.isEqual({ a: 1, b: { d: 3 } }, null, true)).not.ok
     expect(lib.isEqual(null, null, true)).ok
 
     // keys different
-    expect(lib.isEqual({a: 11, b: 22}, {})).not.ok
-    expect(lib.isEqual({}, {a: 11, b: 22})).not.ok
+    expect(lib.isEqual({ a: 11, b: 22 }, {})).not.ok
+    expect(lib.isEqual({}, { a: 11, b: 22 })).not.ok
+
+  })
+
+  it('@ forEach', function () {
+    var vals = [3, 4]
+    var keys = [0, 1]
+    lib.forEach([3, 4], function (val, key, obj) {
+      expect(val == vals.shift()).ok
+      expect(key == keys.shift()).ok
+    })
+    expect(keys.length == 0).ok
+    expect(vals.length == 0).ok
+
+    var count = 0
+    lib.forEach({a:1, b:2}, function (val, key, obj) {
+      expect(val == 1).ok
+      expect(key == 'a').ok
+      count++
+      return false // this will stop iteration
+    })
+    expect(count).equal(1)
+
+    var called = false
+    lib.forEach(5, function (val, key, obj) {
+      called = true
+    })
+    expect(called).not.ok
+
+    function Foo() {
+      this.a = 3
+      this.b = 4
+    }
+    Foo.prototype.c = 3
+    vals = [3, 4]
+    keys = ['a', 'b']
+    lib.forEach(new Foo(), function (val, key, obj) {
+      expect(val == vals.shift()).ok
+      expect(key == keys.shift()).ok
+    })
+
+    expect(keys.length == 0).ok
+    expect(vals.length == 0).ok
 
   })
 })

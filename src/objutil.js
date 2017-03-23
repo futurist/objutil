@@ -7,15 +7,15 @@ var ERR_NULL_TARGET = 'null target'
 var is = function (val, type) { return {}.toString.call(val) === '[object ' + type + ']' }
 var own = function (obj, key) { return {}.hasOwnProperty.call(obj, key) }
 
-function isIterable (v) {
+function isIterable(v) {
   return is(v, 'Object') || is(v, 'Array') || is(v, 'Map')
 }
 
-function isPrimitive (val) {
+function isPrimitive(val) {
   return !/obj|func/.test(typeof val) || !val
 }
 
-function deepIt (a, b, callback, path, _cache) {
+function deepIt(a, b, callback, path, _cache) {
   _cache = _cache || []
   path = path || []
   if (isPrimitive(b)) return a
@@ -31,6 +31,16 @@ function deepIt (a, b, callback, path, _cache) {
   return a
 }
 
+function forEach(obj, callback) {
+  if (!isPrimitive(obj)) {
+    for (var key in obj) {
+      if (own(obj, key) 
+          && callback(obj[key], key, obj)===false) break
+    }
+  }
+  return obj
+}
+
 function getPath(path) {
   if (typeof path === 'string') path = path.split('.')
   return path
@@ -43,7 +53,7 @@ function getPath(path) {
  * @param {} errNotFound
  * @returns {}
  */
-function get (obj, path, errNotFound) {
+function get(obj, path, errNotFound) {
   var n = obj
   path = getPath(path)
   for (var i = 0, len = path.length; i < len; i++) {
@@ -54,22 +64,22 @@ function get (obj, path, errNotFound) {
 }
 
 // ensure path exists
-function ensure (obj, path, defaultValue) {
+function ensure(obj, path, defaultValue) {
   path = getPath(path)
   var arr = get(obj, path)
-  if(arr[1]) return set(obj, path, defaultValue)
+  if (arr[1]) return set(obj, path, defaultValue)
 }
 
-function unset (obj, path) {
+function unset(obj, path) {
   path = getPath(path)
   var len = path.length
   if (!isIterable(obj) || !len) return
-  var arr = get(obj, path.slice(0,-1))
-  if(arr[1] || !isIterable(arr[0])) return false
-  return delete arr[0][path[len-1]]
+  var arr = get(obj, path.slice(0, -1))
+  if (arr[1] || !isIterable(arr[0])) return false
+  return delete arr[0][path[len - 1]]
 }
 
-function set (obj, path, value) {
+function set(obj, path, value) {
   path = getPath(path)
   if (!isIterable(obj) || !path.length) return obj
   var n = obj
@@ -84,14 +94,14 @@ function set (obj, path, value) {
   return obj
 }
 
-function visit (obj, fn) {
+function visit(obj, fn) {
   return deepIt(obj, obj, function (a, b, key, path) {
     // value, key, collection, path
-    return fn({val: a[key], key: key, path: path, col: a})
+    return fn({ val: a[key], key: key, path: path, col: a })
   })
 }
 
-function invert (obj) {
+function invert(obj) {
   var newObj = {}
   deepIt(newObj, obj, function (a, b, key) {
     if (isPrimitive(b[key])) a[b[key]] = key
@@ -99,7 +109,7 @@ function invert (obj) {
   return newObj
 }
 
-function _assignHelper (target, arg, cb) {
+function _assignHelper(target, arg, cb) {
   if (target == null) { // TypeError if undefined or null
     throw new TypeError(ERR_NULL_TARGET)
   }
@@ -109,7 +119,7 @@ function _assignHelper (target, arg, cb) {
   return target
 }
 
-function assign (target, arg) { // length==2
+function assign(target, arg) { // length==2
   return _assignHelper(target, arguments, function (a, b, key, path) {
     a[key] = b[key]
   })
@@ -123,17 +133,17 @@ function merge(target, arg) { // length==2
   })
 }
 
-function defaults (target, arg) { // length==2
+function defaults(target, arg) { // length==2
   target = target || {}
   return _assignHelper(target, arguments, function (a, b, key, path) {
     if (!(key in a)) a[key] = b[key]
   })
 }
 
-function filter (obj, predicate) {
+function filter(obj, predicate) {
   var ret = []
-  deepIt(obj, obj, function(a, b, key, path) {
-    if(predicate({val: a[key], key: key, path: path, col: a})) ret.push(path.concat(key).join('.'))
+  deepIt(obj, obj, function (a, b, key, path) {
+    if (predicate({ val: a[key], key: key, path: path, col: a })) ret.push(path.concat(key).join('.'))
   })
   return ret
 }
@@ -142,13 +152,13 @@ function filter (obj, predicate) {
  *  when isSet, will set value to a instead of delete
  */
 // _exclude( {a:1,b:{d:{ c:2} } }, { b:{d:{ c:1} } } )
-function remove (x, y, force) {
+function remove(x, y, force) {
   return deepIt(x, y, function (a, b, key) {
     if (isPrimitive(b[key]) && (force || b[key])) delete a[key]
   })
 }
 
-function pick (obj, props, force) {
+function pick(obj, props, force) {
   var o = {}
   return deepIt(o, props, function (a, b, key, path) {
     var d, c = get(obj, path.concat(key))
@@ -160,7 +170,7 @@ function pick (obj, props, force) {
   })
 }
 
-function isEqual (x, y, isStrict) {
+function isEqual(x, y, isStrict) {
   var equal = true
   // if b===null, then don't iterate, so here compare first
   if (isPrimitive(x) || isPrimitive(y)) return isStrict ? x === y : x == y
@@ -171,7 +181,7 @@ function isEqual (x, y, isStrict) {
     }
   }
   deepIt(x, y, compare)
-  if(equal) deepIt(y, x, compare)
+  if (equal) deepIt(y, x, compare)
   return equal
 }
 

@@ -317,6 +317,17 @@ expect(lib.filter({a:1, b:{c:2, d:3}, e:4}, function(v) {
 //result=> true
 ```
 
+### forEach( obj, callback )
+
+> **callback: fn(value, key, obj) -> false?, return false will exit iteration**
+
+`forEach( {a:1, b:2}, function(val, key){ console.log(val, key) } )`
+
+```javascript
+// 1, 'a'
+// 2, 'b'
+```
+
 ### deepIt( a, b, callback )
 
 > **Iterate b with deeply sync props of a, and callback(objA, objB, key)**

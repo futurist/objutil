@@ -271,9 +271,9 @@ describe('Test a/b with lib', function () {
   it('@ ensure', function () {
     var obj = {}
     var val = lib.ensure(obj, 'prop.value', 1)
-    expect(val).to.deep.eql({ prop: { value: 1 } })
-    val = lib.ensure(val, 'prop.value', 2)
-    expect(val).eql(undefined)
+    expect(val).to.deep.eql([1, 1])
+    val = lib.ensure(obj, 'prop.value', 2)
+    expect(val).eql([1])
     expect(obj).to.deep.eql({ prop: { value: 1 } })
   })
 

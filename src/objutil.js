@@ -67,7 +67,11 @@ function get(obj, path, errNotFound) {
 function ensure(obj, path, defaultValue) {
   path = getPath(path)
   var arr = get(obj, path)
-  if (arr[1]) return set(obj, path, defaultValue)
+  if (arr[1]) {
+    set(obj, path, defaultValue)
+    arr[0] = defaultValue
+  }
+  return arr
 }
 
 function unset(obj, path) {

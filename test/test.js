@@ -41,6 +41,19 @@ var excludeList = {
 }
 
 describe('Test a/b with lib', function () {
+  it('@ is test', function () {
+    var obj = {}
+    var arr = []
+    var re = /abc/
+    var date = new Date()
+    var func = function(){}
+    expect(lib.is(obj, 'Object')).ok
+    expect(lib.is(arr, 'Array')).ok
+    expect(lib.is(re, 'RegExp')).ok
+    expect(lib.is(date, 'Date')).ok
+    expect(lib.is(func, 'Function')).ok
+  })
+
   it('hasOwnProperty test', function () {
     var x = Object.create(b)
     x.age = 30

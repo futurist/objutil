@@ -7,8 +7,8 @@ var ERR_NULL_TARGET = 'null target'
 var is = function (val, type) { return {}.toString.call(val) === '[object ' + type + ']' }
 var own = function (obj, key) { return {}.hasOwnProperty.call(obj, key) }
 
-function isIterable(v) {
-  return is(v, 'Object') || is(v, 'Array') || is(v, 'Map')
+function isIterable(val) {
+  return !isPrimitive(val)
 }
 
 function isPrimitive(val) {

@@ -73,6 +73,27 @@ describe('Test a/b with lib', function () {
     )
   })
 
+  it('@ isPrimitive test', function () {
+    expect(lib.isPrimitive(null)).ok
+    expect(lib.isPrimitive(undefined)).ok
+    expect(lib.isPrimitive('undefined')).ok
+    expect(lib.isPrimitive(NaN)).ok
+    expect(lib.isPrimitive(true)).ok
+    expect(lib.isPrimitive(false)).ok
+    expect(lib.isPrimitive(123)).ok
+    if (typeof Symbol != "undefined") lib.isPrimitive(Symbol()).ok
+    expect(lib.isPrimitive({})).not.ok
+  })
+  
+  it('@ isIterable test', function () {
+    expect(lib.isIterable({})).ok
+    expect(lib.isIterable([])).ok
+    expect(lib.isIterable(new Date())).ok
+    expect(lib.isIterable(/asdf/)).ok
+    var a = class{}
+    expect(lib.isIterable(new a())).ok
+  })
+
   it('@ invert obj', function () {
     expect(lib.invert({ a: 1, b: { c: 2 }, d: 'xyz' })).deep.equal({
       1: 'a',

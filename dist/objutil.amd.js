@@ -12,7 +12,7 @@ function isIterable(val) {
 }
 
 function isPrimitive(val) {
-  return !/obj|func/.test(typeof val) || !val
+  return val == null || (typeof val !== 'function' && typeof val !== 'object')
 }
 
 function deepIt(a, b, callback, path, _cache) {
@@ -24,7 +24,7 @@ function deepIt(a, b, callback, path, _cache) {
     if (!own(b, key)) continue
     // return false stop the iteration
     if (callback(a, b, key, path) === false) break
-    if (isIterable(b[key]) && isIterable(a[key]) && _cache.indexOf(b[key]) < 0) {
+    if (!isPrimitive(b[key]) && !isPrimitive(a[key]) && _cache.indexOf(b[key]) < 0) {
       deepIt(a[key], b[key], callback, path.concat(key), _cache);
     }
   }
@@ -57,7 +57,7 @@ function get(obj, path, errNotFound) {
   var n = obj;
   path = getPath(path);
   for (var i = 0, len = path.length; i < len; i++) {
-    if (!isIterable(n) || !(path[i] in n)) { return errNotFound ? new Error('NotFound') : [undefined, 1] } // [data, errorCode>0]
+    if (isPrimitive(n) || !(path[i] in n)) { return errNotFound ? new Error('NotFound') : [undefined, 1] } // [data, errorCode>0]
     n = n[path[i]];
   }
   return errNotFound ? n : [n]
@@ -77,18 +77,18 @@ function ensure(obj, path, defaultValue) {
 function unset(obj, path) {
   path = getPath(path);
   var len = path.length;
-  if (!isIterable(obj) || !len) return
+  if (isPrimitive(obj) || !len) return
   var arr = get(obj, path.slice(0, -1));
-  if (arr[1] || !isIterable(arr[0])) return false
+  if (arr[1] || isPrimitive(arr[0])) return false
   return delete arr[0][path[len - 1]]
 }
 
 function set(obj, path, value) {
   path = getPath(path);
-  if (!isIterable(obj) || !path.length) return obj
+  if (isPrimitive(obj) || !path.length) return obj
   var n = obj;
   for (var i = 0, len = path.length - 1; i < len; i++) {
-    if (!isIterable(n[path[i]])) {
+    if (isPrimitive(n[path[i]])) {
       if (path[i] in n) return new Error('cannot set non-object path')
       else n[path[i]] = {};
     }

@@ -1,3 +1,5 @@
+'use strict'
+
 var assert = require('assert')
 var expect = require('chai').expect
 var lib = require('../dist/objutil.cjs.js')
@@ -227,7 +229,7 @@ describe('Test a/b with lib', function () {
     var c = { root: d, a: 1 }
     d.c = c
     // it's Circular object, c.root->d, d.c->c, ...
-    count = 0
+    let count = 0
     expect(lib.filter(c, function (v) {
       count++
       // console.log(count, v)

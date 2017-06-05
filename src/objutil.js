@@ -23,7 +23,9 @@ function deepIt(a, b, callback, path, _cache) {
   for (var key in b) {
     if (!own(b, key)) continue
     // return false stop the iteration
-    if (callback(a, b, key, path) === false) break
+    var ret = callback(a, b, key, path)
+    if (ret === false) break
+    else if (ret === 0) continue
     if (!isPrimitive(b[key]) && !isPrimitive(a[key]) && _cache.indexOf(b[key]) < 0) {
       deepIt(a[key], b[key], callback, path.concat(key), _cache)
     }
@@ -126,6 +128,7 @@ function _assignHelper(target, arg, cb) {
 function assign(target, arg) { // length==2
   return _assignHelper(target, arguments, function (a, b, key, path) {
     a[key] = b[key]
+    return 0
   })
 }
 

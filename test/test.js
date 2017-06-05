@@ -111,6 +111,11 @@ describe('Test a/b with lib', function () {
     }
   })
 
+  it('@ assign should not deep', function () {
+    const obj = lib.assign({a: {b: 0}}, {a: {b: 1, c: 2}}, {a: {c: 3}})
+    expect(obj).deep.eql({a: {c: 3}})
+  })
+
   it('@ assign dest is null', function () {
     var o1 = { a: 1 }
     var o2 = { a: undefined, b: undefined }

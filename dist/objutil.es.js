@@ -90,17 +90,25 @@ function unset(obj, path) {
 function set(obj, path, value, descriptor) {
   path = getPath(path);
   if (isPrimitive(obj) || !path.length) return obj
-  var n = obj;
+  var p, n = obj;
   for (var i = 0, len = path.length - 1; i < len; i++) {
-    if (isPrimitive(n[path[i]])) {
-      if (path[i] in n) return new Error('cannot set non-object path')
-      else n[path[i]] = {};
+    p = path[i];
+    if (isPrimitive(n[p])) {
+      if (p in n) return new Error('cannot set non-object path')
+      else n[p] = {};
     }
-    n = n[path[i]];
+    n = n[p];
   }
-  n[path[i]] = value;
+  p = path[i];
   if(isIterable(descriptor)) {
-    Object.defineProperty(n, path[i], descriptor);
+    Object.defineProperty(n, p, {
+      value: value,
+      configurable: !!got(descriptor, ['c', 'configurable'], false),
+      enumerable: !!got(descriptor, ['e', 'enumerable'], false),
+      writable: !!got(descriptor, ['w', 'writable'], false),
+    });
+  } else {
+    n[p] = value;
   }
   return obj
 }

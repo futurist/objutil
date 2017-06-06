@@ -375,6 +375,17 @@ describe('Test a/b with lib', function () {
     expect(val.prop.value).to.eql(1)
   })
 
+  it('@ set with descriptor shortcuts', function () {
+    var val = lib.set({}, 'prop.value', 1, {c:1})
+    expect(val.prop.value).to.eql(1)
+    expect(Object.getOwnPropertyDescriptor(val.prop, 'value')).deep.eql({
+        "configurable": true,
+        "enumerable": false,
+        "value": 1,
+        "writable": false,
+    })
+  })
+
   it('@ unset with primitive obj', function () {
     var val = lib.unset(234, 'prop.value.key')
     expect(val).to.eql(undefined)

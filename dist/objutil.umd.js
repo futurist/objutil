@@ -126,10 +126,11 @@ function _assignHelper(target, arg, cb) {
   if (target == null) { // TypeError if undefined or null
     throw new TypeError(ERR_NULL_TARGET)
   }
+  var to = Object(target);
   for (var i = 1, len = arg.length; i < len; i++) {
-    deepIt(target, arg[i], cb);
+    deepIt(to, arg[i], cb);
   }
-  return target
+  return to
 }
 
 function assign(target, arg) { // length==2

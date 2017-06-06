@@ -111,6 +111,12 @@ describe('Test a/b with lib', function () {
     }
   })
 
+  it('@ assign target is primitive', function () {
+    var obj = lib.assign(2, { a: 1 })
+    expect(obj).deep.eql({a:1})
+    expect(({}).toString.call(obj)).eql('[object Number]')
+  })
+
   it('@ assign should not deep', function () {
     const obj = lib.assign({a: {b: 0}}, {a: {b: 1, c: 2}}, {a: {c: 3}})
     expect(obj).deep.eql({a: {c: 3}})

@@ -284,6 +284,26 @@ describe('Test a/b with lib', function () {
     )
   })
 
+  it('@ got with string path', function () {
+    var val = lib.got(a, 'prop.order.1.item')
+    expect(val).is.deep.equal('pear')
+  })
+
+  it('@ got with exist path', function () {
+    var val = lib.got(a, [['prop', 'order', 1, 'item']])
+    expect(val).is.deep.equal('pear')
+  })
+
+  it('@ got with fallback path', function () {
+    var val = lib.got(a, ['some', 'name'])
+    expect(val).is.deep.equal('James')
+  })
+
+  it('@ got with default value', function () {
+    var val = lib.got(a, ['some', 'other'], 'Jane')
+    expect(val).is.deep.equal('Jane')
+  })
+
   it('@ get with exist path', function () {
     var val = lib.get(a, ['prop', 'order', 1, 'item'])
     expect(val).is.deep.equal(['pear'])

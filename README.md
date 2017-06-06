@@ -152,6 +152,27 @@ get(a, ['x', 'y'])
 
 ```
 
+
+### got( obj, propArray, defaultValue )
+
+> **Search each path in propArray, return first value found, or defaultValue if none found.**
+
+Where you can use `get`, you can use `got`, which also give you `fallback` into different path and defaultValue.
+
+`got( {prop: {value: 1}}, ['prop1', 'prop2'], 3 )`
+
+``` javascript
+//result is
+3
+```
+
+`got( {prop: {value: 1}}, 'prop.value' )`
+
+``` javascript
+//result is
+1
+```
+
 ### set( obj, pathArray, value, descriptor )
 
 > **Set object value from pathArray. When there's non-object in the path, throw error, return the final object**

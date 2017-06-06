@@ -59,7 +59,11 @@ function get(obj, path, errNotFound) {
   var n = obj
   path = getPath(path)
   for (var i = 0, len = path.length; i < len; i++) {
-    if (isPrimitive(n) || !(path[i] in n)) { return errNotFound ? new Error('NotFound') : [undefined, 1] } // [data, errorCode>0]
+    if (isPrimitive(n) || !(path[i] in n)) {
+      return errNotFound
+        ? new Error('NotFound')
+        : [undefined, 1]
+    } // [data, errorCode>0]
     n = n[path[i]]
   }
   return errNotFound ? n : [n]
@@ -101,6 +105,15 @@ function set(obj, path, value, descriptor) {
     Object.defineProperty(n, path[i], descriptor)
   }
   return obj
+}
+
+function got (obj, propArr, defaultValue) {
+  if(typeof propArr=='string') propArr=[propArr]
+  for(var arr, i=0; i<propArr.length; i++){
+    arr = get(obj, propArr[i])
+    if(arr.length===1) return arr[0]
+  }
+  return defaultValue
 }
 
 function visit(obj, fn) {

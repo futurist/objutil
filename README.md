@@ -195,6 +195,24 @@ set( { y:1 }, ['y', 'z'], 23 )
 Error('cannot set non-object path')
 ```
 
+`set( {}, 'a', 2, {e:0, w:0, c:1} )`
+
+``` javascript
+{a:2}  // a is configurable, but not enumerable and writable
+```
+
+*OR:*
+
+`set( {}, 'a', 2, {configurable:false, enumerable:false, writable:false} )`
+
+*OR SAME AS ABOVE:*
+
+`set( {}, 'a', 2, {} )`
+
+``` javascript
+{a:2}  // a is not configurable, enumerable and writable
+```
+
 ### ensure( obj, pathArray, defaultValue )
 
 > **Like `set`, but only `set` when pathArray not exists**

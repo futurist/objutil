@@ -343,6 +343,12 @@ describe('Test a/b with lib', function () {
     expect(val).to.eql(234)
   })
 
+  it('@ set with obj descriptor', function () {
+    var val = lib.set({}, 'prop.value', 1, {writable: false})
+    expect(()=>val.prop.value=2).to.throw
+    expect(val.prop.value).to.eql(1)
+  })
+
   it('@ unset with primitive obj', function () {
     var val = lib.unset(234, 'prop.value.key')
     expect(val).to.eql(undefined)

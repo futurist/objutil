@@ -64,11 +64,11 @@ function get(obj, path, errNotFound) {
 }
 
 // ensure path exists
-function ensure(obj, path, defaultValue) {
+function ensure(obj, path, defaultValue, descriptor) {
   path = getPath(path);
   var arr = get(obj, path);
   if (arr[1]) {
-    set(obj, path, defaultValue);
+    set(obj, path, defaultValue, descriptor);
     arr[0] = defaultValue;
   }
   return arr
@@ -83,7 +83,7 @@ function unset(obj, path) {
   return delete arr[0][path[len - 1]]
 }
 
-function set(obj, path, value) {
+function set(obj, path, value, descriptor) {
   path = getPath(path);
   if (isPrimitive(obj) || !path.length) return obj
   var n = obj;
@@ -95,6 +95,9 @@ function set(obj, path, value) {
     n = n[path[i]];
   }
   n[path[i]] = value;
+  if(isIterable(descriptor)) {
+    Object.defineProperty(n, path[i], descriptor);
+  }
   return obj
 }
 

@@ -152,11 +152,13 @@ get(a, ['x', 'y'])
 
 ```
 
-### set( obj, pathArray, value )
+### set( obj, pathArray, value, descriptor )
 
 > **Set object value from pathArray. When there's non-object in the path, throw error, return the final object**
 
 Set `pathArray` in `obj` to `value`, when the path not exist or all the intermediate is object.
+
+When **descriptor** is object, will modify the prop according `Object.defineProperty`
 
 When found non-object value in intermediate, throw `Error('cannot set non-object path')`
 

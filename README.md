@@ -369,6 +369,44 @@ expect(lib.filter({a:1, b:{c:2, d:3}, e:4}, function(v) {
 // 2, 'b'
 ```
 
+### map( obj, callback )
+
+> **callback: fn(value, key, obj) -> val, return array of val**
+
+Like `Array.prototype.map` does for Object
+
+`map( {a:1, b:2}, (val, key)=>key+val )`
+
+```javascript
+['a1', 'b2']
+```
+
+### some( obj, callback )
+
+> **callback: fn(value, key, obj) -> true/false, return true/false**
+
+Like `Array.prototype.some` does for Object
+
+`some( {a:1, b:2}, (val, key)=>val>1 )`
+
+```javascript
+true
+```
+
+
+### every( obj, callback )
+
+> **callback: fn(value, key, obj) -> true/false, return true/false**
+
+Like `Array.prototype.every` does for Object
+
+`every( {a:1, b:2}, (val, key)=>val>1 )`
+
+```javascript
+false
+```
+
+
 ### deepIt( a, b, callback )
 
 > **Iterate b with deeply sync props of a, and callback(objA, objB, key)**

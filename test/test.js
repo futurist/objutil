@@ -521,6 +521,29 @@ describe('Test a/b with lib', function () {
 
   })
 
+  it('@ map', function () {
+    var obj = {
+      a:1, b:2
+    }
+    expect(lib.map(obj, (v,k)=>k+v)).deep.eql(
+      ['a1', 'b2']
+    )
+  })
+
+  it('@ some', function () {
+    var obj = {
+      a:1, b:2
+    }
+    expect(lib.some(obj, (v,k)=>v>1)).eql(true)
+  })
+
+  it('@ every', function () {
+    var obj = {
+      a:1, b:2
+    }
+    expect(lib.every(obj, (v,k)=>v>1)).eql(false)
+  })
+
   it('@ forEach', function () {
     var vals = [3, 4]
     var keys = [0, 1]

@@ -4,6 +4,7 @@ var ERR_NULL_TARGET = 'null target';
 // better type check
 var is = function (val, type) { return {}.toString.call(val) === '[object ' + type + ']' };
 var own = function (obj, key) { return {}.hasOwnProperty.call(obj, key) };
+var _keys = Object.keys;
 
 function isIterable(val) {
   return !isPrimitive(val)
@@ -39,6 +40,24 @@ function forEach(obj, callback) {
     }
   }
   return obj
+}
+
+function map(obj, fn) {
+  return _keys(obj).map(function(key){
+    return fn(obj[key], key)
+  })
+}
+
+function some(obj, fn) {
+  return _keys(obj).some(function(key){
+    return fn(obj[key], key)
+  })
+}
+
+function every(obj, fn) {
+  return _keys(obj).every(function(key){
+    return fn(obj[key], key)
+  })
 }
 
 function getPath(path) {
@@ -215,4 +234,4 @@ function isEqual(x, y, isStrict) {
   return equal
 }
 
-export { is, own, isIterable, isPrimitive, deepIt, forEach, get, got, set, unset, ensure, invert, assign, assign as extend, merge, remove, pick, defaults, isEqual, visit, filter };
+export { is, own, isIterable, isPrimitive, deepIt, forEach, map, some, every, get, got, set, unset, ensure, invert, assign, assign as extend, merge, remove, pick, defaults, isEqual, visit, filter };

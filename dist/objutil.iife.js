@@ -3,11 +3,12 @@
 
 /*jslint node: true */
 var ERR_NULL_TARGET = 'null target';
+var _keys = Object.keys;
+var objProto = Object.prototype;
 
 // better type check
-var is = function (val, type) { return {}.toString.call(val) === '[object ' + type + ']' };
-var own = function (obj, key) { return {}.hasOwnProperty.call(obj, key) };
-var _keys = Object.keys;
+var is = function (val, type) { return objProto.toString.call(val) === '[object ' + type + ']' };
+var own = function (obj, key) { return objProto.hasOwnProperty.call(obj, key) };
 
 function isIterable(val) {
   return !isPrimitive(val)

@@ -46,19 +46,19 @@ function forEach(obj, callback) {
 
 function map(obj, fn) {
   return _keys(obj).map(function(key){
-    return fn(obj[key], key)
+    return fn(obj[key], key, obj)
   })
 }
 
 function some(obj, fn) {
   return _keys(obj).some(function(key){
-    return fn(obj[key], key)
+    return fn(obj[key], key, obj)
   })
 }
 
 function every(obj, fn) {
   return _keys(obj).every(function(key){
-    return fn(obj[key], key)
+    return fn(obj[key], key, obj)
   })
 }
 
@@ -121,7 +121,7 @@ function set(obj, path, value, descriptor) {
     n = n[p]
   }
   p = path[i]
-  if(isIterable(descriptor)) {
+  if(!isPrimitive(descriptor)) {
     Object.defineProperty(n, p, {
       value: value,
       configurable: !!got(descriptor, ['c', 'configurable'], false),

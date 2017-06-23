@@ -1,5 +1,4 @@
 /*jslint node: true */
-var ERR_NULL_TARGET = 'null target';
 var _keys = Object.keys;
 var objProto = Object.prototype;
 
@@ -159,7 +158,7 @@ function invert(obj) {
 
 function _assignHelper(target, arg, cb) {
   if (target == null) { // TypeError if undefined or null
-    throw new TypeError(ERR_NULL_TARGET)
+    throw new TypeError('null target')
   }
   var to = Object(target);
   for (var i = 1, len = arg.length; i < len; i++) {

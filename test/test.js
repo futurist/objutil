@@ -425,6 +425,13 @@ describe('Test a/b with lib', function () {
     )
   })
 
+  it('@ pick with array', function () {
+    var val = lib.pick({ a: 3, b: { c: 2 } }, ['a', 'c'])
+    expect(val).to.deep.equal(
+      {a:3}
+    )
+  })
+
   it('@ pick with exist obj path 2', function () {
     var val = lib.pick(a, { prop: { order: [0, 1] } })
     expect(JSON.stringify(val)).to.deep.equal(

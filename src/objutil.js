@@ -211,6 +211,12 @@ function remove(x, y, force) {
 
 function pick(obj, props, force) {
   var o = {}
+  if(is(props, 'Array')){
+    forEach(props, key=>{
+      if(key in obj) o[key] = obj[key]
+    })
+    return o
+  }
   return deepIt(o, props, function (a, b, key, path) {
     var d, c = get(obj, path.concat(key))
     // c[1] > 0: not found from obj

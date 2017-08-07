@@ -514,6 +514,17 @@ describe('Test a/b with lib', function () {
     expect(lib.isEqual(null, { a: 1, b: { d: 3 } })).not.ok
     expect(lib.isEqual({ a: 1, b: { d: 3 } }, null)).not.ok
     expect(lib.isEqual(null, null)).ok
+    expect(lib.isEqual(null, undefined)).ok
+    expect(lib.isEqual([null], [undefined])).ok
+    expect(lib.isEqual(null, '')).not.ok
+
+    // fix #3 isEqual bug: '' == [null]
+    expect(lib.isEqual('', [null])).not.ok
+    expect(lib.isEqual(null, [null])).not.ok
+    expect(lib.isEqual([''], [null])).not.ok
+    expect(lib.isEqual([], [null])).not.ok
+    expect(lib.isEqual([null], [])).not.ok
+    expect(lib.isEqual([undefined], [null])).ok
 
     // isStrict
     expect(lib.isEqual({ a: 1, b: { d: '3' } }, { a: 1, b: { d: 3 } }, true)).not.ok

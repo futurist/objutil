@@ -212,7 +212,7 @@ function remove(x, y, force) {
 function pick(obj, props, force) {
   var o = {}
   if(is(props, 'Array')){
-    forEach(props, key=>{
+    forEach(props, function(key) {
       if(key in obj) o[key] = obj[key]
     })
     return o
@@ -229,19 +229,20 @@ function pick(obj, props, force) {
 
 function isEqual(x, y, isStrict) {
   var equal = true
-  // if b===null, then don't iterate, so here compare first
-  if (isPrimitive(x) || isPrimitive(y)) return isStrict ? x === y : x == y
   var compare = function (a, b, key) {
-    if ((isPrimitive(a[key]) || isPrimitive(b[key]))
-      && (isStrict ? b[key] !== a[key] : b[key] != a[key])) {
+    var isPrimitiveA = isPrimitive(a[key])
+    var isPrimitiveB = isPrimitive(b[key])
+    if (isPrimitiveA || isPrimitiveB) {
+      if(isStrict 
+        ? b[key] !== a[key] 
+        : isPrimitiveA!==isPrimitiveB || b[key] != a[key]) return (equal = false)
+    } else if(_keys(a[key]).length !== _keys(b[key]).length) {
       return (equal = false)
     }
   }
-  deepIt(x, y, compare)
-  if (equal) deepIt(y, x, compare)
+  deepIt([x], [y], compare)
   return equal
 }
 
 // below line will generate from rollup dynamically, see 'rollup.config.js' file
 // export { methods... }
-

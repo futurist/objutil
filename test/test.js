@@ -542,7 +542,7 @@ describe('Test a/b with lib', function () {
       {a:11, b:{c:2, _temp:{text:12}}}, 
       {a:11, b:{c:2, _temp:{}}},
       null,
-      (a,b,key,path)=>path.indexOf('_temp')<0
+      (a,b,key,path)=>path.concat(key).indexOf('_temp')<0
     )).ok
 
   })

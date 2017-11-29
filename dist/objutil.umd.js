@@ -231,9 +231,10 @@ function pick(obj, props, force) {
   })
 }
 
-function isEqual(x, y, isStrict) {
+function isEqual(x, y, isStrict, validFn) {
   var equal = true;
-  var compare = function (a, b, key) {
+  var compare = function (a, b, key, path) {
+    if(typeof validFn==='function' && validFn(a,b,key,path)) return
     var isPrimitiveA = isPrimitive(a[key]);
     var isPrimitiveB = isPrimitive(b[key]);
     if (isPrimitiveA || isPrimitiveB) {

@@ -537,6 +537,14 @@ describe('Test a/b with lib', function () {
     expect(lib.isEqual({ a: 11, b: 22 }, {})).not.ok
     expect(lib.isEqual({}, { a: 11, b: 22 })).not.ok
 
+    // validFn
+    expect(lib.isEqual(
+      {a:11, b:{c:2, _temp:{text:12}}}, 
+      {a:11, b:{c:2, _temp:{}}},
+      null,
+      (a,b,key,path)=>path.indexOf('_temp')<0
+    )).ok
+
   })
 
   it('@ map', function () {

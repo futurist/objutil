@@ -75,6 +75,31 @@ describe('Test a/b with lib', function () {
     )
   })
 
+  it('@ isPOJO test', function () {
+
+    function ObjectConstructor() {}
+    ObjectConstructor.prototype.constructor = Object;
+
+    expect(lib.isPOJO(null)).not.ok
+    expect(lib.isPOJO(undefined)).not.ok
+    expect(lib.isPOJO('undefined')).not.ok
+    expect(lib.isPOJO(NaN)).not.ok
+    expect(lib.isPOJO(true)).not.ok
+    expect(lib.isPOJO(false)).not.ok
+    expect(lib.isPOJO(123)).not.ok
+    expect(lib.isPOJO(function(){})).not.ok
+    expect(lib.isPOJO(()=>{})).not.ok
+    expect(lib.isPOJO(Date)).not.ok
+    expect(lib.isPOJO(new Date())).not.ok
+
+    expect(lib.isPOJO({})).ok
+    expect(lib.isPOJO({constructor: function(){}})).ok
+    expect(lib.isPOJO(new Object())).ok
+    expect(lib.isPOJO(Object.create(null))).ok
+
+    expect(lib.isPOJO(new ObjectConstructor())).not.ok
+  })
+
   it('@ isPrimitive test', function () {
     expect(lib.isPrimitive(null)).ok
     expect(lib.isPrimitive(undefined)).ok
@@ -140,6 +165,14 @@ describe('Test a/b with lib', function () {
     expect(lib.merge({}, { a: 'a' }, { a: undefined })).deep.eql({ a: 'a' })
     expect(lib.merge({}, { a: 'a' }, { a: null })).deep.eql({ a: null })
     expect(lib.merge({}, { a: ['a'] }, { a: ['bb', ['dd']] })).deep.eql({ 'a': ['bb', ['dd']] })
+  })
+
+  it('@ merge with non-object', function () {
+    var one = function(){return 1}
+    var o1 = { a: 1 }
+    var o2 = { a: undefined, b: one }
+    var obj = lib.merge({}, o1, o2)
+    expect(obj).deep.eql({ a: 1, b: one })
   })
 
   it('@ defaults dest is null', function () {
@@ -455,6 +488,12 @@ describe('Test a/b with lib', function () {
   it('@ pick with force', function () {
     var val = lib.pick({ a: 1, b: 2 }, { a: 0 }, true)
     expect(val).to.deep.equal({ a: 1 })
+  })
+
+  it('@ pick with non-object', function () {
+    var r = new RegExp()
+    var val = lib.pick({ a: 1, b: r }, { a: 1, b:1 })
+    expect(val).to.deep.equal({ a: 1, b: r })
   })
 
   it('@ pick with exist obj path 3', function () {

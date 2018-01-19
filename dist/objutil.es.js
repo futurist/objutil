@@ -1,10 +1,17 @@
 /*jslint node: true */
 var _keys = Object.keys;
-var objProto = Object.prototype;
+var OP = Object.prototype;
+var {isArray} = Array;
 
 // better type check
-var is = function (val, type) { return objProto.toString.call(val) === '[object ' + type + ']' };
-var own = function (obj, key) { return objProto.hasOwnProperty.call(obj, key) };
+function is(val, type) { return OP.toString.call(val) === '[object ' + type + ']' }
+function own(obj, key) { return OP.hasOwnProperty.call(obj, key) }
+
+// https://github.com/sindresorhus/is-plain-obj
+function isPOJO (x) {
+  var prototype;
+  return is(x, 'Object') && (prototype = Object.getPrototypeOf(x), prototype === null || prototype === Object.getPrototypeOf({}))
+}
 
 function isIterable(val) {
   return !isPrimitive(val)
@@ -178,7 +185,7 @@ function merge(target, arg) { // length==2
   return _assignHelper(target, arguments, function (a, b, key, path) {
     var bval = b[key];
     if (bval !== undefined && isPrimitive(bval)) a[key] = bval;
-    else if (!(key in a)) a[key] = bval ? bval.constructor() : bval;
+    else if (!(key in a)) a[key] = isArray(bval) ? [] : isPOJO(bval) ? {} : bval;
   })
 }
 
@@ -209,7 +216,7 @@ function remove(x, y, force) {
 
 function pick(obj, props, force) {
   var o = {};
-  if(is(props, 'Array')){
+  if(isArray(props)){
     forEach(props, function(key) {
       if(key in obj) o[key] = obj[key];
     });
@@ -220,7 +227,7 @@ function pick(obj, props, force) {
     // c[1] > 0: not found from obj
     if (!(force || b[key]) || c[1]) return
     d = c[0];  // c[0] is the data
-    if (!isPrimitive(d)) a[key] = d.constructor();
+    if (!isPrimitive(d)) a[key] = isArray(d) ? [] : isPOJO(d) ? {} : d;
     if (isPrimitive(b[key])) a[key] = d;
   })
 }
@@ -243,4 +250,4 @@ function isEqual(x, y, isStrict, validFn) {
   return equal
 }
 
-export { is, own, isIterable, isPrimitive, deepIt, forEach, map, some, every, get, got, set, unset, ensure, invert, assign, assign as extend, merge, remove, pick, defaults, isEqual, visit, filter };
+export { is, own, isPOJO, isIterable, isPrimitive, deepIt, forEach, map, some, every, get, got, set, unset, ensure, invert, assign, assign as extend, merge, remove, pick, defaults, isEqual, visit, filter };

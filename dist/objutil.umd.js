@@ -5,9 +5,12 @@
 }(this, (function (exports) { 'use strict';
 
 /*jslint node: true */
-var {keys, getPrototypeOf} = Object;
-var {toString, hasOwnProperty} = Object.prototype;
-var {isArray} = Array;
+var keys = Object.keys;
+var getPrototypeOf = Object.getPrototypeOf;
+var ref = Object.prototype;
+var toString = ref.toString;
+var hasOwnProperty = ref.hasOwnProperty;
+var isArray = Array.isArray;
 
 // better type check
 function is(val, type) { return toString.call(val) === '[object ' + type + ']' }
@@ -30,14 +33,14 @@ function isPrimitive(val) {
 function deepIt(a, b, callback, path, _cache) {
   _cache = _cache || [];
   path = path || [];
-  if (isPrimitive(b)) return a
+  if (isPrimitive(b)) { return a }
   _cache.push(b);
   for (var key in b) {
-    if (!own(b, key)) continue
+    if (!own(b, key)) { continue }
     // return false stop the iteration
     var ret = callback(a, b, key, path);
-    if (ret === false) break
-    else if (ret === 0) continue
+    if (ret === false) { break }
+    else if (ret === 0) { continue }
     if (!isPrimitive(b[key]) && !isPrimitive(a[key]) && _cache.indexOf(b[key]) < 0) {
       deepIt(a[key], b[key], callback, path.concat(key), _cache);
     }
@@ -49,7 +52,7 @@ function forEach(obj, callback) {
   if (!isPrimitive(obj)) {
     for (var key in obj) {
       if (own(obj, key) 
-          && callback(obj[key], key, obj)===false) break
+          && callback(obj[key], key, obj)===false) { break }
     }
   }
   return obj
@@ -74,7 +77,7 @@ function every(obj, fn) {
 }
 
 function getPath(path) {
-  if (typeof path === 'string') path = path.split('.');
+  if (typeof path === 'string') { path = path.split('.'); }
   return path
 }
 
@@ -113,21 +116,21 @@ function ensure(obj, path, defaultValue, descriptor) {
 function unset(obj, path) {
   path = getPath(path);
   var len = path.length;
-  if (isPrimitive(obj) || !len) return
+  if (isPrimitive(obj) || !len) { return }
   var arr = get(obj, path.slice(0, -1));
-  if (arr[1] || isPrimitive(arr[0])) return false
+  if (arr[1] || isPrimitive(arr[0])) { return false }
   return delete arr[0][path[len - 1]]
 }
 
 function set(obj, path, value, descriptor) {
   path = getPath(path);
-  if (isPrimitive(obj) || !path.length) return obj
+  if (isPrimitive(obj) || !path.length) { return obj }
   var p, n = obj;
   for (var i = 0, len = path.length - 1; i < len; i++) {
     p = path[i];
     if (isPrimitive(n[p])) {
-      if (p in n) return new Error('cannot set non-object path')
-      else n[p] = {};
+      if (p in n) { return new Error('cannot set non-object path') }
+      else { n[p] = {}; }
     }
     n = n[p];
   }
@@ -146,10 +149,10 @@ function set(obj, path, value, descriptor) {
 }
 
 function got (obj, propArr, defaultValue) {
-  if(typeof propArr=='string') propArr=[propArr];
+  if(typeof propArr=='string') { propArr=[propArr]; }
   for(var arr, i=0; i<propArr.length; i++){
     arr = get(obj, propArr[i]);
-    if(arr.length===1) return arr[0]
+    if(arr.length===1) { return arr[0] }
   }
   return defaultValue
 }
@@ -164,7 +167,7 @@ function visit(obj, fn) {
 function invert(obj) {
   var newObj = {};
   deepIt(newObj, obj, function (a, b, key) {
-    if (isPrimitive(b[key])) a[b[key]] = key;
+    if (isPrimitive(b[key])) { a[b[key]] = key; }
   });
   return newObj
 }
@@ -190,22 +193,22 @@ function assign(target, arg) { // length==2
 function merge(target, arg) { // length==2
   return _assignHelper(target, arguments, function (a, b, key, path) {
     var bval = b[key];
-    if (bval !== undefined && isPrimitive(bval)) a[key] = bval;
-    else if (!(key in a)) a[key] = isArray(bval) ? [] : isPOJO(bval) ? {} : bval;
+    if (bval !== undefined && isPrimitive(bval)) { a[key] = bval; }
+    else if (!(key in a)) { a[key] = isArray(bval) ? [] : isPOJO(bval) ? {} : bval; }
   })
 }
 
 function defaults(target, arg) { // length==2
   target = target || {};
   return _assignHelper(target, arguments, function (a, b, key, path) {
-    if (!(key in a)) a[key] = b[key];
+    if (!(key in a)) { a[key] = b[key]; }
   })
 }
 
 function filter(obj, predicate) {
   var ret = [];
   deepIt(obj, obj, function (a, b, key, path) {
-    if (predicate({ val: a[key], key: key, path: path, col: a })) ret.push(path.concat(key).join('.'));
+    if (predicate({ val: a[key], key: key, path: path, col: a })) { ret.push(path.concat(key).join('.')); }
   });
   return ret
 }
@@ -216,7 +219,7 @@ function filter(obj, predicate) {
 // _exclude( {a:1,b:{d:{ c:2} } }, { b:{d:{ c:1} } } )
 function remove(x, y, force) {
   return deepIt(x, y, function (a, b, key) {
-    if (isPrimitive(b[key]) && (force || b[key])) delete a[key];
+    if (isPrimitive(b[key]) && (force || b[key])) { delete a[key]; }
   })
 }
 
@@ -224,30 +227,30 @@ function pick(obj, props, force) {
   var o = {};
   if(isArray(props)){
     forEach(props, function(key) {
-      if(key in obj) o[key] = obj[key];
+      if(key in obj) { o[key] = obj[key]; }
     });
     return o
   }
   return deepIt(o, props, function (a, b, key, path) {
     var d, c = get(obj, path.concat(key));
     // c[1] > 0: not found from obj
-    if (!(force || b[key]) || c[1]) return
+    if (!(force || b[key]) || c[1]) { return }
     d = c[0];  // c[0] is the data
-    if (!isPrimitive(d)) a[key] = isArray(d) ? [] : isPOJO(d) ? {} : d;
-    if (isPrimitive(b[key])) a[key] = d;
+    if (!isPrimitive(d)) { a[key] = isArray(d) ? [] : isPOJO(d) ? {} : d; }
+    if (isPrimitive(b[key])) { a[key] = d; }
   })
 }
 
 function isEqual(x, y, isStrict, validFn) {
   var equal = true;
   var compare = function (a, b, key, path) {
-    if(typeof validFn==='function' && !validFn(a,b,key,path)) return
+    if(typeof validFn==='function' && !validFn(a,b,key,path)) { return }
     var isPrimitiveA = isPrimitive(a[key]);
     var isPrimitiveB = isPrimitive(b[key]);
     if (isPrimitiveA || isPrimitiveB) {
       if(isStrict 
         ? b[key] !== a[key] 
-        : isPrimitiveA!==isPrimitiveB || b[key] != a[key]) return (equal = false)
+        : isPrimitiveA!==isPrimitiveB || b[key] != a[key]) { return (equal = false) }
     } else if(keys(a[key]).length !== keys(b[key]).length) {
       return (equal = false)
     }

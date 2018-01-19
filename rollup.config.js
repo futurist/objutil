@@ -2,6 +2,7 @@
 
 import path from 'path'
 import fs from 'fs'
+import buble from 'rollup-plugin-buble'
 
 var argv = process.argv
 
@@ -37,6 +38,7 @@ fs.writeFileSync(apiPath, vars, 'utf8')
 export default {
   entry: entry,
   plugins: [
+    buble(),
     objTransform()
   ],
   moduleName: 'objutil',

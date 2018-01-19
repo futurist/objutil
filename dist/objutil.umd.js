@@ -5,18 +5,18 @@
 }(this, (function (exports) { 'use strict';
 
 /*jslint node: true */
-var _keys = Object.keys;
-var OP = Object.prototype;
+var {keys, getPrototypeOf} = Object;
+var {toString, hasOwnProperty} = Object.prototype;
 var {isArray} = Array;
 
 // better type check
-function is(val, type) { return OP.toString.call(val) === '[object ' + type + ']' }
-function own(obj, key) { return OP.hasOwnProperty.call(obj, key) }
+function is(val, type) { return toString.call(val) === '[object ' + type + ']' }
+function own(obj, key) { return hasOwnProperty.call(obj, key) }
 
 // https://github.com/sindresorhus/is-plain-obj
 function isPOJO (x) {
   var prototype;
-  return is(x, 'Object') && (prototype = Object.getPrototypeOf(x), prototype === null || prototype === Object.getPrototypeOf({}))
+  return is(x, 'Object') && (prototype = getPrototypeOf(x), prototype === null || prototype === getPrototypeOf({}))
 }
 
 function isIterable(val) {
@@ -56,19 +56,19 @@ function forEach(obj, callback) {
 }
 
 function map(obj, fn) {
-  return _keys(obj).map(function(key){
+  return keys(obj).map(function(key){
     return fn(obj[key], key, obj)
   })
 }
 
 function some(obj, fn) {
-  return _keys(obj).some(function(key){
+  return keys(obj).some(function(key){
     return fn(obj[key], key, obj)
   })
 }
 
 function every(obj, fn) {
-  return _keys(obj).every(function(key){
+  return keys(obj).every(function(key){
     return fn(obj[key], key, obj)
   })
 }
@@ -248,7 +248,7 @@ function isEqual(x, y, isStrict, validFn) {
       if(isStrict 
         ? b[key] !== a[key] 
         : isPrimitiveA!==isPrimitiveB || b[key] != a[key]) return (equal = false)
-    } else if(_keys(a[key]).length !== _keys(b[key]).length) {
+    } else if(keys(a[key]).length !== keys(b[key]).length) {
       return (equal = false)
     }
   };

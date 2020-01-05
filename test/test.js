@@ -43,6 +43,8 @@ var excludeList = {
 }
 
 describe('Test a/b with lib', function () {
+  console.time('all test time')
+
   it('@ is test', function () {
     var obj = {}
     var arr = []
@@ -650,4 +652,14 @@ describe('Test a/b with lib', function () {
     expect(vals.length == 0).ok
 
   })
+
+  it('big json', () => {
+    var json = require('./big.json')
+    console.time('big_json')
+    lib.visit(json, () => {})
+    console.timeEnd('big_json')
+  })
+
+  console.timeEnd('all test time')
+
 })

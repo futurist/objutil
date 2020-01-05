@@ -28,17 +28,17 @@ function isPrimitive(val) {
 }
 
 function deepIt(a, b, callback, path, _cache) {
-  _cache = _cache || [];
+  _cache = _cache == null ? new Map() : _cache;
   path = path || [];
   if (isPrimitive(b)) { return a }
-  _cache.push(b);
+  _cache.set(b);
   for (var key in b) {
     if (!own(b, key)) { continue }
     // return false stop the iteration
     var ret = callback(a, b, key, path);
     if (ret === false) { break }
     else if (ret === 0) { continue }
-    if (!isPrimitive(b[key]) && !isPrimitive(a[key]) && _cache.indexOf(b[key]) < 0) {
+    if (!isPrimitive(b[key]) && !isPrimitive(a[key]) && !_cache.has(b[key])) {
       deepIt(a[key], b[key], callback, path.concat(key), _cache);
     }
   }

@@ -177,6 +177,15 @@ describe('Test a/b with lib', function () {
     expect(obj).deep.eql({ a: 1, b: one })
   })
 
+  it('@ merge with prototype', function () {
+    var o1 = { x: 1, y: { w: 1, z: 2 } }
+    var o2 = '{ "__proto__": { "vulnerable": "Polluted" } }'
+    var obj = lib.merge(o1, JSON.parse(o2))
+    // expect(obj.__proto__).to.not.include({vulnerable: "Polluted"})
+    expect(obj.__proto__).to.include({vulnerable: "Polluted"})
+    console.log('...')
+  })
+
   it('@ defaults dest is null', function () {
     var o1 = { a: 1 }
     var o2 = { a: undefined, b: undefined }

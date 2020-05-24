@@ -184,6 +184,8 @@ function assign(target, arg) { // length==2
 }
 
 function merge(target, arg) { // length==2
+  if (arg.hasOwnProperty('__proto__'))
+    throw new TypeError('Altering the prototype is potentially dangerous and therefore not allowed.')
   return _assignHelper(target, arguments, function (a, b, key, path) {
     var bval = b[key]
     if (bval !== undefined && isPrimitive(bval)) a[key] = bval

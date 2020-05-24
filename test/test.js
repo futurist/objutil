@@ -180,10 +180,11 @@ describe('Test a/b with lib', function () {
   it('@ merge with prototype', function () {
     var o1 = { x: 1, y: { w: 1, z: 2 } }
     var o2 = '{ "__proto__": { "vulnerable": "Polluted" } }'
-    var obj = lib.merge(o1, JSON.parse(o2))
-    // expect(obj.__proto__).to.not.include({vulnerable: "Polluted"})
-    expect(obj.__proto__).to.include({vulnerable: "Polluted"})
-    console.log('...')
+    try {
+      var obj = lib.merge(o1, JSON.parse(o2))
+    } catch (e) {
+      expect(e).to.be.an('error')
+    }
   })
 
   it('@ defaults dest is null', function () {

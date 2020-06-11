@@ -177,9 +177,19 @@ describe('Test a/b with lib', function () {
     expect(obj).deep.eql({ a: 1, b: one })
   })
 
-  it('@ merge with prototype', function () {
+  it('@ merge with __proto__', function () {
     var o1 = { x: 1, y: { w: 1, z: 2 } }
     var o2 = '{ "__proto__": { "vulnerable": "Polluted" } }'
+    try {
+      var obj = lib.merge(o1, JSON.parse(o2))
+    } catch (e) {
+      expect(e).to.be.an('error')
+    }
+  })
+
+  it('@ merge a constructor with contaminated prototype', function () {
+    var o1 = { x: 1, y: { w: 1, z: 2 } }
+    var o2 = '{ "constructor": { "prototype": { "vulnerable": "Polluted" } } }'
     try {
       var obj = lib.merge(o1, JSON.parse(o2))
     } catch (e) {

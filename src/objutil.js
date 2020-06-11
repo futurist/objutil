@@ -184,7 +184,7 @@ function assign(target, arg) { // length==2
 }
 
 function merge(target, arg) { // length==2
-  if (arg.hasOwnProperty('__proto__'))
+  if ((JSON.stringify(arg).toLowerCase().includes('proto')))
     throw new TypeError('Altering the prototype is potentially dangerous and therefore not allowed.')
   return _assignHelper(target, arguments, function (a, b, key, path) {
     var bval = b[key]

@@ -184,17 +184,23 @@ describe('Test a/b with lib', function () {
       var obj = lib.merge(o1, JSON.parse(o2))
     } catch (e) {
       expect(e).to.be.an('error')
+      expect(e.message.toString().toLowerCase()).to.include('cannot add property')
+      expect(e.message.toString().toLowerCase()).to.include('object is not extensible')
     }
+    expect(obj).to.equal(undefined)
   })
 
-  it('@ merge a constructor with contaminated prototype', function () {
+  it('@ merge with __proto__ via constructor', function () {
     var o1 = { x: 1, y: { w: 1, z: 2 } }
     var o2 = '{ "constructor": { "prototype": { "vulnerable": "Polluted" } } }'
     try {
       var obj = lib.merge(o1, JSON.parse(o2))
     } catch (e) {
       expect(e).to.be.an('error')
+      expect(e.message.toString().toLowerCase()).to.include('cannot add property')
+      expect(e.message.toString().toLowerCase()).to.include('object is not extensible')
     }
+    expect(obj).to.equal(undefined)
   })
 
   it('@ defaults dest is null', function () {

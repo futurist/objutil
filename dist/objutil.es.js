@@ -171,6 +171,7 @@ function _assignHelper(target, arg, cb) {
     throw new TypeError('null target')
   }
   var to = Object(target);
+  Object.freeze(to.__proto__);
   for (var i = 1, len = arg.length; i < len; i++) {
     deepIt(to, arg[i], cb);
   }
@@ -185,6 +186,8 @@ function assign(target, arg) { // length==2
 }
 
 function merge(target, arg) { // length==2
+  if ((arg.hasOwnProperty('__proto__') || arg.hasOwnProperty('prototype') || JSON.stringify(arg).toLowerCase().includes('proto')))
+    { console.log('altering the prototype can be unsafe and is not allowed'); }
   return _assignHelper(target, arguments, function (a, b, key, path) {
     var bval = b[key];
     if (bval !== undefined && isPrimitive(bval)) { a[key] = bval; }

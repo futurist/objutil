@@ -34,6 +34,7 @@
     "grunt": "^1.5.3",
     "grunt-bump": "^0.8.0",
     "grunt-contrib-jshint": "^1.0.0",
+    "istanbul": "^0.4.5",
     "mocha": "^3.0.2",
     "mocha-lcov-reporter": "^1.2.0",
     "rollup": "^0.36.3",

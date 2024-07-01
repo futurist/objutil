@@ -5,6 +5,7 @@
   "main": "dist/objutil.cjs.js",
   "browser": "dist/objutil.umd.js",
   "jsnext:main": "dist/objutil.es.js",
+  "files": ["dist/"],
   "scripts": {
     "travis-before_install": "npm install -g grunt-cli",
     "travis-test": "grunt jshint && npm test",

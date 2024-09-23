@@ -37,7 +37,7 @@
     "istanbul": "^0.4.5",
     "mocha": "^3.0.2",
     "mocha-lcov-reporter": "^1.2.0",
-    "rollup": "^0.36.3",
+    "rollup": "^3.29.5",
     "rollup-plugin-buble": "^0.18.0"
   },
   "bugs": {
